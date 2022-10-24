@@ -4,6 +4,14 @@ spring:
     username: user
     password: password
     driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none # For DB initialization only with schema.sql and init.sql
+  sql:
+    init:
+      mode: always
 
 server:
   servlet:

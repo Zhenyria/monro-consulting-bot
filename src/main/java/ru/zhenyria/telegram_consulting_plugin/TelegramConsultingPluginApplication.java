@@ -1,4 +1,4 @@
-package ru.zhenyria.telegram.consulting.plugin;
+package ru.zhenyria.telegram_consulting_plugin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
