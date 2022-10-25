@@ -10,28 +10,28 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigInteger;
 
 /**
- * The entity for text templates
+ * The entity for telegram char members
  */
 @Entity
-@Table(name = "text_template")
+@Table(name = "chat_member")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(callSuper = false)
-public class TextTemplate extends AbstractEntity {
+public class ChatMember extends AbstractEntity {
 
-  @NotBlank
-  @Size(max = 50)
-  @Column(name = "key_value")
-  String key;
+    @NotNull
+    @Column(name = "chat_member_id")
+    BigInteger chatMemberId;
 
-  @NotBlank
-  @Size(max = 500)
-  @Column(name = "text_value")
-  String text;
+    @NotNull
+    @Size(max = 50)
+    @Column(name = "user_name")
+    String userName;
 }
