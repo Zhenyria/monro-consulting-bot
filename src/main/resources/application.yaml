@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:dictionary
+    url: jdbc:h2:mem:monro
     username: user
     password: password
     driverClassName: org.h2.Driver
@@ -12,6 +12,7 @@ spring:
   sql:
     init:
       mode: always
+      data-locations: classpath:init.sql
 
 server:
   servlet:
