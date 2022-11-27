@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.zhenyria.telegram_consulting_plugin.model.TextTemplate;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.zhenyria.telegram_consulting_plugin.test_util.TextTemplateRepositoryTestUtil.getAllKeys;
-import static ru.zhenyria.telegram_consulting_plugin.test_util.TextTemplateRepositoryTestUtil.getByKey;
+import static ru.zhenyria.telegram_consulting_plugin.test_util.TextTemplateRepositoryTestUtil.DEFAULT_TEMPLATE_CODE;
+import static ru.zhenyria.telegram_consulting_plugin.test_util.TextTemplateRepositoryTestUtil.getDefaultTemplate;
 
 /**
  * Test for {@link TextTemplateRepository}
@@ -19,18 +17,9 @@ class TextTemplateRepositoryTest extends AbstractRepositoryTest {
     private TextTemplateRepository textTemplateRepository;
 
     @Test
-    void getAllKeysTest() {
-        Set<String> actualKeys = textTemplateRepository.getAllKeys();
-        Set<String> expectedKeys = getAllKeys();
-
-        assertEquals(expectedKeys, actualKeys);
-    }
-
-    @Test
     void getByKeyTest() {
-        String key = getAllKeys().stream().findFirst().orElse(null);
-        TextTemplate expectedTextTemplate = getByKey(key);
-        TextTemplate actualTextTemplate = textTemplateRepository.getByKey(key);
+        TextTemplate expectedTextTemplate = getDefaultTemplate();
+        TextTemplate actualTextTemplate = textTemplateRepository.getByKey(DEFAULT_TEMPLATE_CODE);
 
         assertEquals(expectedTextTemplate, actualTextTemplate);
     }
