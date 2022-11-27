@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
@@ -15,13 +16,14 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 
 /**
- * The entity for telegram char members
+ * The entity for telegram chat members
  */
 @Entity
 @Table(name = "chat_member")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter(onMethod_ = {@Deprecated})
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public class ChatMember extends AbstractEntity {
