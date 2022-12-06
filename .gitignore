@@ -34,3 +34,6 @@ build/
 
 ### HSQLDB ###
 db/
+
+### PRODUCTION CONFIG ###
+config/telegram.conf
