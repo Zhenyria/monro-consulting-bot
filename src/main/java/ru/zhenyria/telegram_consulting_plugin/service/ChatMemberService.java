@@ -6,7 +6,6 @@ import ru.zhenyria.telegram_consulting_plugin.model.ChatMember;
 import ru.zhenyria.telegram_consulting_plugin.repository.ChatMemberRepository;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class ChatMemberService {
     }
 
     @Transactional
-    public boolean removeByChatMemberId(BigInteger chatMemberId) {
+    public boolean removeByChatMemberId(Long chatMemberId) {
         return chatMemberRepository.removeByChatMemberId(chatMemberId) > 0;
     }
 }

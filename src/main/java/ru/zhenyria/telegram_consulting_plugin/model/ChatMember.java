@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigInteger;
 
 /**
  * The entity for telegram chat members
@@ -30,7 +29,7 @@ public class ChatMember extends AbstractEntity {
 
     @NotNull
     @Column(name = "chat_member_id")
-    BigInteger chatMemberId;
+    Long chatMemberId;
 
     @NotNull
     @Size(max = 50)

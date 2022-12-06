@@ -1,18 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:monro
-    username: user
+    url: jdbc:hsqldb:file:db/monro
+    username: sa
     password: password
-    driverClassName: org.h2.Driver
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
+    database-platform: org.hibernate.dialect.HSQLDialect
+    generate-ddl: false
     hibernate:
-      ddl-auto: none # For DB initialization only with schema.sql and init.sql
+      ddl-auto: validate # Checks that existing schema are fitted for existing entities
   sql:
     init:
-      mode: always
-      data-locations: classpath:init.sql
+      mode: never
 
 server:
   servlet:

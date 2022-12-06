@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.zhenyria.telegram_consulting_plugin.model.ChatMember;
 
-import java.math.BigInteger;
-
 @Repository
 public interface ChatMemberRepository extends JpaRepository<ChatMember, Integer> {
 
@@ -16,5 +14,5 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Integer>
 
     @Modifying
     @Query("DELETE FROM ChatMember cm WHERE cm.chatMemberId = :chatMemberId")
-    int removeByChatMemberId(BigInteger chatMemberId);
+    int removeByChatMemberId(Long chatMemberId);
 }
