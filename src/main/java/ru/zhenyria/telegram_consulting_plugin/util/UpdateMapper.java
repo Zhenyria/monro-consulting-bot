@@ -18,6 +18,6 @@ public interface UpdateMapper {
      * @return {@link ChatMember} instance
      */
     @Mapping(target = "chatMemberId", source = "update.myChatMember.newChatMember.user.id")
-    @Mapping(target = "userName", source = "update.myChatMember.newChatMember.user.userName")
+    @Mapping(target = "userName", source = "update.myChatMember.from.userName")
     ChatMember mapToChatMember(Update update);
 }
