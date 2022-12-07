@@ -1,0 +1,17 @@
+FROM openjdk:15-jdk-alpine
+
+ARG JAR_FILE=target/*.jar
+ARG DB_DIRECTORY=db
+ARG CONFIG_FILE=config/telegram.conf
+
+ENV EXTERNAL_PORT=8080
+
+WORKDIR /app
+
+COPY $JAR_FILE ./app.jar
+COPY $DB_DIRECTORY ./$DB_DIRECTORY
+COPY $CONFIG_FILE ./$CONFIG_FILE
+
+EXPOSE $EXTERNAL_PORT
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
