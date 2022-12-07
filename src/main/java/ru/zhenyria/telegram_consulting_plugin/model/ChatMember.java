@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
  * The entity for telegram chat members
  */
 @Entity
-@Table(name = "chat_member")
+@Table(schema = "public", name = "chat_member")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor

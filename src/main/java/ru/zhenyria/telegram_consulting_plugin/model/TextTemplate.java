@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  * The entity for text templates
  */
 @Entity
-@Table(name = "text_template")
+@Table(schema = "public", name = "text_template")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
