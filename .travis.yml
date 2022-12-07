@@ -1,0 +1,11 @@
+language: java
+jdk: openjdk15
+
+# Cache for speeding up the building
+cache:
+  directories:
+    - $home/.m2
+
+branches:
+  only:
+    - master
