@@ -4,7 +4,10 @@ jdk: openjdk15
 # Cache for speeding up the building
 cache:
   directories:
-    - $home/.m2
+    - $HOME/.m2
+
+before_script:
+  -cp ci/toolchains.xml $HOME/.m2/toolchains.xml
 
 branches:
   only:

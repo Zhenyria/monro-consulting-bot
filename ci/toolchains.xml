@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copy this file for your .m2 directory -->
+<toolchains>
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>15</version>
+    </provides>
+    <configuration>
+      <jdkHome>${env.JAVA_HOME}</jdkHome>
+    </configuration>
+  </toolchain>
+</toolchains>
