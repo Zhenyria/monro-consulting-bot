@@ -15,6 +15,7 @@
     <name>telegram-consulting-plugin</name>
     <description>telegram-consulting-plugin</description>
     <packaging>jar</packaging>
+
     <properties>
         <java.version>15</java.version>
         <spring.version>2.7.4</spring.version>
@@ -27,6 +28,7 @@
         <telegrambots-spring-boot-starter.version>6.1.0</telegrambots-spring-boot-starter.version>
         <maven-compilier-plugin.version>3.10.1</maven-compilier-plugin.version>
         <maven-toolchains-plugin.version>3.1.0</maven-toolchains-plugin.version>
+        <maven-help-plugin.version>3.3.0</maven-help-plugin.version>
     </properties>
     <dependencies>
         <!-- Spring -->
@@ -117,6 +119,21 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Plugin for simple profiles activating -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-help-plugin</artifactId>
+                <version>${maven-help-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>show-profiles</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>active-profiles</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -130,25 +147,36 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-                <version>${maven-toolchains-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>toolchain</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <toolchains>
-                        <jdk>
-                            <version>15.0.2</version>
-                        </jdk>
-                    </toolchains>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Profile for using with toolchain -->
+        <profile>
+            <id>local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>${maven-toolchains-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <toolchains>
+                                <jdk>
+                                    <version>${java.version}</version>
+                                </jdk>
+                            </toolchains>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

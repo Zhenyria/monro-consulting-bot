@@ -6,9 +6,6 @@ cache:
   directories:
     - $HOME/.m2
 
-before_script:
-  -cp ci/toolchains.xml $HOME/.m2/toolchains.xml
-
 branches:
   only:
     - master

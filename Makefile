@@ -1,5 +1,5 @@
 create_image:
-	mvn clean package
+	mvn clean package -Plocal
 	docker build -t zhenyria/telegram-consulting-plugin:${tag} .
 
 run:
