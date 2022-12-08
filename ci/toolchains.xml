@@ -4,7 +4,7 @@
   <toolchain>
     <type>jdk</type>
     <provides>
-      <version>15</version>
+      <version>15.0.2</version>
     </provides>
     <configuration>
       <jdkHome>${env.JAVA_HOME}</jdkHome>
