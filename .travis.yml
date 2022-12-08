@@ -6,6 +6,9 @@ cache:
   directories:
     - $HOME/.m2
 
+before_script:
+  - cp config/telegram-example.conf config/telegram.conf
+
 branches:
   only:
     - master
