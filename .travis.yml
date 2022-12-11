@@ -7,7 +7,7 @@ cache:
     - $HOME/.m2
 
 before_script:
-  - cp config/telegram-example.conf config/telegram.conf
+  - openssl aes-256-cbc -K $encrypted_df60101c7b71_key -iv $encrypted_df60101c7b71_iv -in config/telegram.conf.enc -out config/telegram.conf
 
 branches:
   only:
