@@ -1,3 +1,5 @@
+# Replace zhenyria by name of actual docker hub account
+
 create_image:
 	mvn clean package -Plocal
 	docker build -t zhenyria/telegram-consulting-plugin:${tag} .
