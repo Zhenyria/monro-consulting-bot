@@ -10,10 +10,10 @@
         <relativePath/>
     </parent>
     <groupId>ru.zhenyria</groupId>
-    <artifactId>telegram-consulting-plugin</artifactId>
+    <artifactId>monro-consulting-bot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>telegram-consulting-plugin</name>
-    <description>telegram-consulting-plugin</description>
+    <name>monro-consulting-bot</name>
+    <description>monro-consulting-bot</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -91,7 +91,7 @@
     </dependencies>
 
     <build>
-        <finalName>telegram-consulting-plugin-${version}</finalName>
+        <finalName>monro-consulting-bot-${version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
