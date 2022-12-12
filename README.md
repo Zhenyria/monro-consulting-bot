@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Zhenyria/telegram-consulting-plugin.svg?branch=master)](https://travis-ci.org/Zhenyria/telegram-consulting-plugin)
+[![Build Status](https://travis-ci.com/Zhenyria/monro-consulting-bot.svg?branch=master)](https://travis-ci.org/Zhenyria/monro-consulting-bot)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/35f78eaef7d84690ad81819853527f8c)](https://www.codacy.com/gh/Zhenyria/monro-consulting-bot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Zhenyria/monro-consulting-bot&amp;utm_campaign=Badge_Grade)
 
 # Monro consulting bot
