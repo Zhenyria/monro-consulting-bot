@@ -9,8 +9,8 @@ The bot is able to greet new or returned users and keeps records of all users wh
 
 ## Commands :speech_balloon:
 
-| command | description |
-|--|--|
+| command          | description                                                  |
+|------------------|--------------------------------------------------------------|
 | `/members_count` | returns total amount of all users which use the bot nowadays |
 
 ## Technology stack
