@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.zhenyria.monro_consulting_bot.model.TextTemplate;
 import ru.zhenyria.monro_consulting_bot.repository.TextTemplateRepository;
-import ru.zhenyria.monro_consulting_bot.util.TextTemplateKey;
 
 import java.util.Optional;
 
@@ -13,9 +12,10 @@ import java.util.Optional;
 public class TextTemplateService {
     private final TextTemplateRepository textTemplateRepository;
 
-    public String getByKey(TextTemplateKey key) {
+    public String getByKey(String key) {
         return Optional
-                .ofNullable(textTemplateRepository.getByKey(key.getKey()))
+                .ofNullable(key)
+                .map(textTemplateRepository::getByKey)
                 .map(TextTemplate::getText)
                 .orElse(null);
     }

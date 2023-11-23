@@ -9,9 +9,13 @@ The bot is able to greet new or returned users and keeps records of all users wh
 
 ## Commands :speech_balloon:
 
-| command          | description                                                  |
-|------------------|--------------------------------------------------------------|
-| `/members_count` | returns total amount of all users which use the bot nowadays |
+| command          | description                                                                       |
+|------------------|-----------------------------------------------------------------------------------|
+| `/address`       | returns address of the shop                                                       |
+| `/delivery`      | returns common information about delivery *(ways and available carrier services)* |
+| `/fitting`       | returns recommendations how to take size of a foot   for shoe buying              |
+| `/members_count` | returns total amount of all users which use the bot nowadays                      |
+| `/requisites`    | returns company's requisites                                                      |
 
 ## Technology stack
 

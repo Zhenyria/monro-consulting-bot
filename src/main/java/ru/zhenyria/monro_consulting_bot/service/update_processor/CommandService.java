@@ -6,8 +6,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.zhenyria.monro_consulting_bot.service.ChatMemberService;
+import ru.zhenyria.monro_consulting_bot.service.TextTemplateService;
 import ru.zhenyria.monro_consulting_bot.util.Command;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,6 +27,7 @@ public class CommandService implements UpdateProcessableService {
     private static final String COMMAND_SYMBOL = "/";
 
     private final ChatMemberService chatMemberService;
+    private final TextTemplateService textTemplateService;
 
     @Override
     public boolean isServiceSuitable(Update update) {
@@ -36,13 +39,29 @@ public class CommandService implements UpdateProcessableService {
 
     @Override
     public Map<Predicate<Update>, Function<Update, SendMessage>> getUpdateHandlers() {
-        return Map.of(
+        Map<Predicate<Update>, Function<Update, SendMessage>> updateHandlers = new HashMap<>();
+
+        updateHandlers.put(
                 update -> checkCommandIsSuitable(update, GET_CHAT_MEMBERS_TOTAL_COUNT),
                 update -> createMessageForChat(
                         getChatId(update),
                         String.format("Chat members total count: %d", chatMemberService.getChatMembersTotalCount())
                 )
         );
+
+        // populate a map with update handlers for default consultation commands
+        for (Command command : Command.values()) {
+            if (command.isSpecial()) {
+                continue;
+            }
+
+            updateHandlers.put(
+                    update -> checkCommandIsSuitable(update, command),
+                    update -> createMessageForChat(getChatId(update), textTemplateService.getByKey(command.name()))
+            );
+        }
+
+        return updateHandlers;
     }
 
     /**

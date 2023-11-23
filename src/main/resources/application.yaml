@@ -12,6 +12,7 @@ spring:
   sql:
     init:
       mode: never
+      schema-locations: schema.sql, init.sql
 
 server:
   servlet:

@@ -25,8 +25,6 @@ import java.util.function.Predicate;
 import static org.telegram.telegrambots.meta.api.objects.MemberStatus.KICKED;
 import static org.telegram.telegrambots.meta.api.objects.MemberStatus.LEFT;
 import static org.telegram.telegrambots.meta.api.objects.MemberStatus.MEMBER;
-import static ru.zhenyria.monro_consulting_bot.util.TextTemplateKey.GREETING;
-import static ru.zhenyria.monro_consulting_bot.util.TextTemplateKey.GREETING_FOR_RETURNED;
 
 /**
  * The service handles updates of chat's members statuses
@@ -49,7 +47,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
                 update -> checkChatMemberStatusChanging(update, LEFT, Collections.singletonList(MEMBER)),
                 update -> {
                     chatMemberService.save(updateMapper.mapToChatMember(update));
-                    return createMessageForChat(getChatId(update), textTemplateService.getByKey(GREETING));
+                    return createMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
                 });
 
         // Handler for returned chat member
@@ -59,7 +57,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
                     chatMemberService.save(updateMapper.mapToChatMember(update));
                     return createMessageForChat(
                             getChatId(update),
-                            textTemplateService.getByKey(GREETING_FOR_RETURNED)
+                            textTemplateService.getByKey("GREETING_FOR_RETURNED")
                     );
                 });
 
