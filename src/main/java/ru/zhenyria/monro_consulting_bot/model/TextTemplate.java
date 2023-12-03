@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * The entity for text templates
@@ -23,15 +24,15 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(callSuper = false)
-public class TextTemplate extends AbstractEntity {
+public class TextTemplate extends AbstractEntity implements Serializable {
 
-  @NotBlank
-  @Size(max = 50)
-  @Column(name = "key_value")
-  String key;
+    @NotBlank
+    @Size(max = 50)
+    @Column(name = "key_value")
+    String key;
 
-  @NotBlank
-  @Size(max = 500)
-  @Column(name = "text_value")
-  String text;
+    @NotBlank
+    @Size(max = 500)
+    @Column(name = "text_value")
+    String text;
 }

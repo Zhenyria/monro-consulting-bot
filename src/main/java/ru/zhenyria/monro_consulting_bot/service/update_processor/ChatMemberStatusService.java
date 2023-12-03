@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
-import ru.zhenyria.monro_consulting_bot.service.ChatMemberService;
+import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.TextTemplateService;
 import ru.zhenyria.monro_consulting_bot.util.UpdateMapper;
 
@@ -32,7 +32,7 @@ import static org.telegram.telegrambots.meta.api.objects.MemberStatus.MEMBER;
 @Service
 @RequiredArgsConstructor
 class ChatMemberStatusService implements UpdateProcessableService {
-    private final ChatMemberService chatMemberService;
+    private final CustomerService customerService;
     private final TextTemplateService textTemplateService;
 
     private final UpdateMapper updateMapper;
@@ -46,7 +46,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, LEFT, Collections.singletonList(MEMBER)),
                 update -> {
-                    chatMemberService.save(updateMapper.mapToChatMember(update));
+                    customerService.save(updateMapper.mapToChatMember(update));
                     return createMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
                 });
 
@@ -54,7 +54,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, KICKED, Collections.singletonList(MEMBER)),
                 update -> {
-                    chatMemberService.save(updateMapper.mapToChatMember(update));
+                    customerService.save(updateMapper.mapToChatMember(update));
                     return createMessageForChat(
                             getChatId(update),
                             textTemplateService.getByKey("GREETING_FOR_RETURNED")
@@ -65,7 +65,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, MEMBER, List.of(LEFT, KICKED)),
                 update -> {
-                    chatMemberService.removeByChatMemberId(updateMapper.mapToChatMember(update).getChatMemberId());
+                    customerService.removeByChatMemberId(updateMapper.mapToChatMember(update).getChatMemberId());
                     return null;
                 }
         );

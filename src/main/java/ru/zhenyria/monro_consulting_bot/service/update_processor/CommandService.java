@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.zhenyria.monro_consulting_bot.service.ChatMemberService;
+import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.TextTemplateService;
 import ru.zhenyria.monro_consulting_bot.util.Command;
 
@@ -26,7 +26,7 @@ import static ru.zhenyria.monro_consulting_bot.util.Command.GET_CHAT_MEMBERS_TOT
 public class CommandService implements UpdateProcessableService {
     private static final String COMMAND_SYMBOL = "/";
 
-    private final ChatMemberService chatMemberService;
+    private final CustomerService customerService;
     private final TextTemplateService textTemplateService;
 
     @Override
@@ -45,7 +45,7 @@ public class CommandService implements UpdateProcessableService {
                 update -> checkCommandIsSuitable(update, GET_CHAT_MEMBERS_TOTAL_COUNT),
                 update -> createMessageForChat(
                         getChatId(update),
-                        String.format("Chat members total count: %d", chatMemberService.getChatMembersTotalCount())
+                        String.format("Chat members total count: %d", customerService.getChatMembersTotalCount())
                 )
         );
 

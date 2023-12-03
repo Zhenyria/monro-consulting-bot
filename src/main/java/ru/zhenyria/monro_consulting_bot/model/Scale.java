@@ -10,29 +10,45 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-/**
- * The entity for telegram chat members
+/*
+ * The entity represents shoes scale
  */
 @Entity
-@Table(schema = "public", name = "chat_member")
+@Table(schema = "public", name = "scale")
+@IdClass(ScaleId.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter(onMethod_ = {@Deprecated})
 @Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
-public class ChatMember extends AbstractEntity {
+public class Scale implements Serializable {
+
+    @Id
+    @NotNull
+    @Column(name = "size")
+    Integer size;
+
+    @Id
+    @NotNull
+    @Column(name = "volume")
+    Integer volume;
 
     @NotNull
-    @Column(name = "chat_member_id")
-    Long chatMemberId;
+    @Column(name = "foot_length")
+    Integer footLength;
 
     @NotNull
-    @Size(max = 50)
-    @Column(name = "user_name")
-    String userName;
+    @Column(name = "foot_width")
+    Integer footWidth;
+
+    @NotNull
+    @Column(name = "foot_height")
+    Integer footHeight;
 }
