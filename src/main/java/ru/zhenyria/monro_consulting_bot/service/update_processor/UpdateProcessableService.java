@@ -35,7 +35,7 @@ interface UpdateProcessableService {
      * @param text   the message
      * @return reply message
      */
-    default SendMessage createMessageForChat(long chatId, String text) {
+    default SendMessage createTextMessageForChat(long chatId, String text) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(text);

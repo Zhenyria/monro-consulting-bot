@@ -47,7 +47,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
                 update -> checkChatMemberStatusChanging(update, LEFT, Collections.singletonList(MEMBER)),
                 update -> {
                     customerService.save(updateMapper.mapToChatMember(update));
-                    return createMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
+                    return createTextMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
                 });
 
         // Handler for returned chat member
@@ -55,7 +55,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
                 update -> checkChatMemberStatusChanging(update, KICKED, Collections.singletonList(MEMBER)),
                 update -> {
                     customerService.save(updateMapper.mapToChatMember(update));
-                    return createMessageForChat(
+                    return createTextMessageForChat(
                             getChatId(update),
                             textTemplateService.getByKey("GREETING_FOR_RETURNED")
                     );
@@ -78,7 +78,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
 
     @Override
     public Map<Predicate<Update>, Function<Update, SendMessage>> getUpdateHandlers() {
-        return this.updateHandlers;
+        return Collections.unmodifiableMap(this.updateHandlers);
     }
 
     /**
@@ -135,11 +135,10 @@ class ChatMemberStatusService implements UpdateProcessableService {
      * @return status or null
      */
     private String getStatus(Update update, Function<ChatMemberUpdated, ChatMember> chatMemberExtractor) {
-        return Optional
-                .ofNullable(update.getMyChatMember())
-                .map(chatMemberExtractor)
-                .map(ChatMember::getStatus)
-                .orElse(null);
+        return Optional.ofNullable(update.getMyChatMember())
+                       .map(chatMemberExtractor)
+                       .map(ChatMember::getStatus)
+                       .orElse(null);
     }
 
     /**

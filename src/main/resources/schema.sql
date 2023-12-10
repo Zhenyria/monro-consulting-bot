@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS text_template;
 DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE IF NOT EXISTS global_seq AS INTEGER START WITH 100 INCREMENT BY 1;
-\
 
 CREATE TABLE IF NOT EXISTS text_template
 (
@@ -19,11 +18,10 @@ CREATE TABLE IF NOT EXISTS text_template
 
 CREATE TABLE IF NOT EXISTS scale
 (
-    size        INT NOT NULL,
-    volume      INT NOT NULL,
-    foot_length INT NOT NULL,
-    foot_width  INT NOT NULL,
-    foot_height INT NOT NULL,
+    size        INT           NOT NULL,
+    volume      INT           NOT NULL,
+    foot_length DECIMAL(3, 1) NOT NULL,
+    foot_girth  DECIMAL(3, 1) NOT NULL,
     PRIMARY KEY (size, volume)
 );
 

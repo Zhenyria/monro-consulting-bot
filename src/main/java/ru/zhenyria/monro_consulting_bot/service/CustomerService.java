@@ -17,12 +17,16 @@ public class CustomerService {
         repository.save(customer);
     }
 
+    public Customer get(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
     public long getChatMembersTotalCount() {
         return repository.getTotalCount();
     }
 
     @Transactional
-    public boolean removeByChatMemberId(Long chatMemberId) {
-        return repository.removeByChatMemberId(chatMemberId) > 0;
+    public boolean removeByChatMemberId(Long id) {
+        return repository.removeByChatMemberId(id) > 0;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,9 +16,10 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-/*
- * The entity represents shoes scale
+/**
+ * The entity represents shoes scale <i>(size and girth)</i>
  */
 @Entity
 @Table(schema = "public", name = "scale")
@@ -28,7 +30,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class Scale implements Serializable {
+public class Scale implements Serializable, Comparable<Scale> {
 
     @Id
     @NotNull
@@ -42,13 +44,15 @@ public class Scale implements Serializable {
 
     @NotNull
     @Column(name = "foot_length")
-    Integer footLength;
+    BigDecimal footLength;
 
     @NotNull
-    @Column(name = "foot_width")
-    Integer footWidth;
+    @Column(name = "foot_girth")
+    BigDecimal footGirth;
 
-    @NotNull
-    @Column(name = "foot_height")
-    Integer footHeight;
+    @Override
+    public int compareTo(Scale scale) {
+        val sizesComparingResult = this.getSize().compareTo(scale.getSize());
+        return sizesComparingResult == 0 ? this.getVolume().compareTo(scale.getVolume()) : sizesComparingResult;
+    }
 }

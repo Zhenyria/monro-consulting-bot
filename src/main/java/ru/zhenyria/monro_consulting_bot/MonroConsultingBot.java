@@ -11,8 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.zhenyria.monro_consulting_bot.service.update_processor.MonroConsultingService;
-import ru.zhenyria.monro_consulting_bot.util.Command;
-import ru.zhenyria.monro_consulting_bot.util.CommandMapper;
+import ru.zhenyria.monro_consulting_bot.util.StartCommand;
+import ru.zhenyria.monro_consulting_bot.util.StartCommandMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MonroConsultingBot extends TelegramLongPollingBot {
 
-    private final CommandMapper commandMapper;
+    private final StartCommandMapper startCommandMapper;
 
     @Value("${telegram.botName}")
     private String botName;
@@ -73,8 +73,8 @@ public class MonroConsultingBot extends TelegramLongPollingBot {
      * @return {@link SetMyCommands} instance which contains list of available commands
      */
     private SetMyCommands getCommands() {
-        List<BotCommand> botCommands = commandMapper.mapToBotCommand(
-                Arrays.stream(Command.values()).collect(Collectors.toList())
+        List<BotCommand> botCommands = startCommandMapper.mapToBotCommand(
+                Arrays.stream(StartCommand.values()).collect(Collectors.toList())
         );
         SetMyCommands myCommands = new SetMyCommands();
         myCommands.setCommands(botCommands);
