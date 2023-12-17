@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -40,6 +40,10 @@ public class Shoes implements Serializable {
     String vendorCode;
 
     @NotBlank
+    @Column(name = "url")
+    String url;
+
+    @NotBlank
     @Column(name = "name")
     String name;
 
@@ -52,9 +56,23 @@ public class Shoes implements Serializable {
     String imageUrl;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumns({
-            @JoinColumn(name = "size", referencedColumnName = "size"),
-            @JoinColumn(name = "volume", referencedColumnName = "volume")
-    })
+    @JoinTable(
+            name = "shoes_scales",
+            joinColumns = {
+                    @JoinColumn(name = "shoes_vendor_code", referencedColumnName = "vendor_code")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "size", referencedColumnName = "size"),
+                    @JoinColumn(name = "volume", referencedColumnName = "volume")
+            }
+    )
     Scale scale;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "season_name", referencedColumnName = "name_val")
+    Season season;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "model_name", referencedColumnName = "name_val")
+    ShoesModel model;
 }

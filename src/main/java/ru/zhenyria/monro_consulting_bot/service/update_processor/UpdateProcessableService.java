@@ -29,6 +29,14 @@ interface UpdateProcessableService {
     Map<Predicate<Update>, Function<Update, SendMessage>> getUpdateHandlers();
 
     /**
+     * Retrieves user's id
+     *
+     * @param update the update
+     * @return user's id as long or {@code null} if there is no data
+     */
+    Long getChatMemberId(Update update);
+
+    /**
      * Create simple reply message
      *
      * @param chatId chat's id

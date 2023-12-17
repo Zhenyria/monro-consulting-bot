@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class CallbackCommandUtil {
     public static final String CALLBACK_DATA_SPLITTER = " ";
 
-    private static final Pattern CALLBACK_DATA_PATTERN = Pattern.compile("^/([a-z]+) (.*$)");
+    private static final Pattern CALLBACK_DATA_PATTERN = Pattern.compile("^/([a-z_]+) (.*$)");
     private static final int CALLBACK_DATA_PATTERN_COMMAND_GROUP = 1;
     private static final int CALLBACK_DATA_PATTERN_DATA_GROUP = 2;
 

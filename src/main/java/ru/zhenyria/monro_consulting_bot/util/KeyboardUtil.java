@@ -20,20 +20,7 @@ public class KeyboardUtil {
         return getInlineKeyboard(buttons);
     }
 
-    private static <T> List<InlineKeyboardButton> getInlineKeyboardButtons(List<T> elements,
-                                                                           Function<T, String> textProvider,
-                                                                           Function<T, String> callbackDataProvider) {
-        return elements.stream()
-                       .map(element -> {
-                           var button = new InlineKeyboardButton();
-                           button.setText(textProvider.apply(element));
-                           button.setCallbackData(callbackDataProvider.apply(element));
-                           return button;
-                       })
-                       .collect(Collectors.toList());
-    }
-
-    private static InlineKeyboardMarkup getInlineKeyboard(List<InlineKeyboardButton> buttons) {
+    public static InlineKeyboardMarkup getInlineKeyboard(List<InlineKeyboardButton> buttons) {
         List<List<InlineKeyboardButton>> linedButtons = new ArrayList<>();
 
         // add first row
@@ -48,5 +35,18 @@ public class KeyboardUtil {
         }
 
         return new InlineKeyboardMarkup(linedButtons);
+    }
+
+    private static <T> List<InlineKeyboardButton> getInlineKeyboardButtons(List<T> elements,
+                                                                           Function<T, String> textProvider,
+                                                                           Function<T, String> callbackDataProvider) {
+        return elements.stream()
+                       .map(element -> {
+                           var button = new InlineKeyboardButton();
+                           button.setText(textProvider.apply(element));
+                           button.setCallbackData(callbackDataProvider.apply(element));
+                           return button;
+                       })
+                       .collect(Collectors.toList());
     }
 }

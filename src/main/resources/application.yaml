@@ -9,6 +9,7 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: validate # Checks that existing schema are fitted for existing entities
+    show-sql: false
   sql:
     init:
       mode: never

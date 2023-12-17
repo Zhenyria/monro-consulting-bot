@@ -1,16 +1,20 @@
 package ru.zhenyria.monro_consulting_bot.service.update_processor;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.ScaleService;
 import ru.zhenyria.monro_consulting_bot.util.CommandUtil;
 import ru.zhenyria.monro_consulting_bot.util.KeyboardUtil;
+import ru.zhenyria.monro_consulting_bot.util.ShoesFilter;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +23,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static ru.zhenyria.monro_consulting_bot.util.StartCommand.GET_CHAT_MEMBERS_TOTAL_COUNT;
+import static ru.zhenyria.monro_consulting_bot.util.StartCommand.GET_RECOMMENDED_SHOES;
 import static ru.zhenyria.monro_consulting_bot.util.StartCommand.START_TRYING_ON_SHOES;
 
 /**
@@ -43,6 +48,9 @@ public class StartCommandService implements UpdateProcessableService {
 
         this.updateHandlers.put(update -> CommandUtil.checkCommandIsSuitable(update, START_TRYING_ON_SHOES),
                                 this::getMessageForStartTryingOnShoes);
+
+        this.updateHandlers.put(update -> CommandUtil.checkCommandIsSuitable(update, GET_RECOMMENDED_SHOES),
+                                this::getMessageForStartReceivingRecommendedShoes);
     }
 
     @Override
@@ -56,6 +64,15 @@ public class StartCommandService implements UpdateProcessableService {
     @Override
     public Map<Predicate<Update>, Function<Update, SendMessage>> getUpdateHandlers() {
         return Collections.unmodifiableMap(this.updateHandlers);
+    }
+
+    @Override
+    public Long getChatMemberId(Update update) {
+        return Optional.of(update)
+                       .map(Update::getMessage)
+                       .map(Message::getFrom)
+                       .map(User::getId)
+                       .orElse(null);
     }
 
     /**
@@ -80,6 +97,39 @@ public class StartCommandService implements UpdateProcessableService {
                                                        Если вы не нашли в представленном списке подходящие параметры, \
                                                        то выберите самый близкий к вашему с небольшим запасом в \
                                                        сторону увеличения""");
+        message.setReplyMarkup(keyboard);
+        return message;
+    }
+
+    /**
+     * Retrieves message which contains filter variants of shoes
+     *
+     * @param update the update
+     * @return a message with keyboard
+     */
+    private SendMessage getMessageForStartReceivingRecommendedShoes(Update update) {
+        val customerId = getChatMemberId(update);
+        var customer = customerService.get(customerId);
+        var scale = customer.getScale();
+
+        if (scale == null) {
+            return createTextMessageForChat(getChatId(update),
+                                            """
+                                                    Невозможно сформировать список рекомендаций, так как вы не \
+                                                    установили свой размер""");
+        }
+
+        var keyboard = KeyboardUtil.getInlineKeyboard(
+                Arrays.asList(ShoesFilter.values()),
+                ShoesFilter::getLocalizedMessage,
+                shoesFilter -> "%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+                                                   GET_RECOMMENDED_SHOES.getCommand(),
+                                                   shoesFilter.name())
+        );
+
+        var message = createTextMessageForChat(getChatId(update),
+                                               "Каким образом вы желаете отфильтровать список обуви?");
+
         message.setReplyMarkup(keyboard);
         return message;
     }

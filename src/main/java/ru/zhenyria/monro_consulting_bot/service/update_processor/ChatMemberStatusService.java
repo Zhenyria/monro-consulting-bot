@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import ru.zhenyria.monro_consulting_bot.model.Customer;
 import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.TextTemplateService;
-import ru.zhenyria.monro_consulting_bot.util.UpdateMapper;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -35,8 +36,6 @@ class ChatMemberStatusService implements UpdateProcessableService {
     private final CustomerService customerService;
     private final TextTemplateService textTemplateService;
 
-    private final UpdateMapper updateMapper;
-
     private final Map<Predicate<Update>, Function<Update, SendMessage>> updateHandlers = new HashMap<>();
 
     @PostConstruct
@@ -46,7 +45,10 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, LEFT, Collections.singletonList(MEMBER)),
                 update -> {
-                    customerService.save(updateMapper.mapToChatMember(update));
+                    customerService.save(new Customer(getChatMemberId(update),
+                                                      getChatMemberName(update),
+                                                      null,
+                                                      null));
                     return createTextMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
                 });
 
@@ -54,7 +56,10 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, KICKED, Collections.singletonList(MEMBER)),
                 update -> {
-                    customerService.save(updateMapper.mapToChatMember(update));
+                    customerService.save(new Customer(getChatMemberId(update),
+                                                      getChatMemberName(update),
+                                                      null,
+                                                      null));
                     return createTextMessageForChat(
                             getChatId(update),
                             textTemplateService.getByKey("GREETING_FOR_RETURNED")
@@ -65,7 +70,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
         updateHandlers.put(
                 update -> checkChatMemberStatusChanging(update, MEMBER, List.of(LEFT, KICKED)),
                 update -> {
-                    customerService.removeByChatMemberId(updateMapper.mapToChatMember(update).getChatMemberId());
+                    customerService.removeByChatMemberId(getChatMemberId(update));
                     return null;
                 }
         );
@@ -79,6 +84,29 @@ class ChatMemberStatusService implements UpdateProcessableService {
     @Override
     public Map<Predicate<Update>, Function<Update, SendMessage>> getUpdateHandlers() {
         return Collections.unmodifiableMap(this.updateHandlers);
+    }
+
+    @Override
+    public Long getChatMemberId(Update update) {
+        return Optional.of(update)
+                       .map(Update::getMyChatMember)
+                       .map(ChatMemberUpdated::getFrom)
+                       .map(User::getId)
+                       .orElse(null);
+    }
+
+    /**
+     * Extracts user's name from update
+     *
+     * @param update the update
+     * @return user's name
+     */
+    public String getChatMemberName(Update update) {
+        return Optional.of(update)
+                       .map(Update::getMyChatMember)
+                       .map(ChatMemberUpdated::getFrom)
+                       .map(User::getUserName)
+                       .orElse(null);
     }
 
     /**
