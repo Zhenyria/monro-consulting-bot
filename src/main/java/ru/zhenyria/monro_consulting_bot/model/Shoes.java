@@ -14,12 +14,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * The entity represents shoes model
@@ -55,7 +57,7 @@ public class Shoes implements Serializable {
     @Column(name = "image_url")
     String imageUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "shoes_scales",
             joinColumns = {
@@ -66,7 +68,7 @@ public class Shoes implements Serializable {
                     @JoinColumn(name = "volume", referencedColumnName = "volume")
             }
     )
-    Scale scale;
+    List<Scale> scales;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "season_name", referencedColumnName = "name_val")

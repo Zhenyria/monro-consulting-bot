@@ -5,10 +5,18 @@ import org.springframework.stereotype.Service;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.repository.ShoesRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 @RequiredArgsConstructor
 public class ShoesService {
     private final ShoesRepository repository;
+
+    public Shoes getByVendorCode(String vendorCode) {
+        return repository.findById(vendorCode)
+                         .orElse(null);
+    }
 
     /**
      * Retrieves random shoes available to a customer
@@ -25,7 +33,10 @@ public class ShoesService {
             return null;
         }
 
-        int randomIndex = (int) ((shoes.size() - 1) * Math.random());
+        int randomIndex = BigDecimal.valueOf((shoes.size() - 1) * Math.random())
+                                    .setScale(0, RoundingMode.HALF_UP)
+                                    .intValue();
+
         return shoes.get(randomIndex);
     }
 }

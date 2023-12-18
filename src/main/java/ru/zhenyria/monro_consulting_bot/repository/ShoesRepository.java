@@ -13,12 +13,12 @@ public interface ShoesRepository extends JpaRepository<Shoes, String> {
     @Query("""
             SELECT DISTINCT s
             FROM Shoes s
-            JOIN Customer c ON c.chatMemberId = :customerId AND c.scale.size = s.scale.size
-                                                            AND c.scale.volume = s.scale.volume
             JOIN ShoesModel sm ON sm.name = s.model.name
             JOIN Season se ON se.name = s.season.name
+            JOIN Customer c ON c.chatMemberId = :customerId
             WHERE (:seasonName IS NULL OR se.name = :seasonName)
             AND (:shoesModelName IS NULL OR sm.name = :shoesModelName)
+            AND (c.scale.size, c.scale.volume) IN (SELECT sc.size, sc.volume FROM s.scales sc)
             """)
     List<Shoes> getAllByCustomerIdAndSeasonNameAndShoesModelName(Long customerId,
                                                                  String seasonName,

@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Getter
 public enum CallbackCommand {
+    ADD_TO_WISH(null, "add_to_wish"),
     SET_FEET_GIRTH(StartCommand.START_TRYING_ON_SHOES.getCommand(), "girth"),
     CHOOSE_SEASON(StartCommand.GET_RECOMMENDED_SHOES.getCommand(), "season"),
     CHOOSE_SHOES_MODEL(StartCommand.GET_RECOMMENDED_SHOES.getCommand(), "shoes_model");

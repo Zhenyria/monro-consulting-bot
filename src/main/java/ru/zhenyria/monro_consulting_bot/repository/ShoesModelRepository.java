@@ -15,8 +15,8 @@ public interface ShoesModelRepository extends JpaRepository<ShoesModel, String> 
             FROM ShoesModel sm
             JOIN Shoes s ON s.model = sm
             JOIN Customer c ON c.chatMemberId = :customerId
-                            AND c.scale.size = s.scale.size
-                            AND c.scale.volume = s.scale.volume
-            """)
+            WHERE (c.scale.size, c.scale.volume) IN (SELECT sc.size, sc.volume FROM s.scales sc)
+            """
+    )
     List<ShoesModel> getLocalizedNamesOfRelatedToShoesWithCustomersScale(Long customerId);
 }

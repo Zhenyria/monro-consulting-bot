@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.ADD_TO_WISH;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.CHOOSE_SEASON;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.CHOOSE_SHOES_MODEL;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.SET_FEET_GIRTH;
@@ -75,6 +76,11 @@ public class CallbackService implements UpdateProcessableService {
         this.updateHandlers.put(
                 update -> CallbackCommandUtil.checkCommandIsSuitable(update, CHOOSE_SHOES_MODEL.getCommand()),
                 this::getMessageWithRandomShoesByShoesModel
+        );
+
+        this.updateHandlers.put(
+                update -> CallbackCommandUtil.checkCommandIsSuitable(update, ADD_TO_WISH.getCommand()),
+                this::getMessageForAddingShoesToWishList
         );
     }
 
@@ -271,30 +277,65 @@ public class CallbackService implements UpdateProcessableService {
             return createTextMessageForChat(getChatId(update), "Подходящей обуви по вашему размеру не найдено");
         }
 
+        val shoesVendorCode = randomShoes.getVendorCode();
         val messageText = """
                 %s %s
                 Артикул: %s
                                 
                 %s
                                 
-                Ссылка на страницу: %s
-                %s""".formatted(randomShoes.getModel().getLocalizedName(),
-                                randomShoes.getName(),
-                                randomShoes.getVendorCode(),
-                                randomShoes.getDescription(),
-                                randomShoes.getUrl(),
-                                randomShoes.getImageUrl());
+                Страница в магазине: %s
+                Изображение: %s""".formatted(randomShoes.getModel().getLocalizedName(),
+                                             randomShoes.getName(),
+                                             shoesVendorCode,
+                                             randomShoes.getDescription(),
+                                             randomShoes.getUrl(),
+                                             randomShoes.getImageUrl());
 
         var message = createTextMessageForChat(getChatId(update), messageText);
 
         List<InlineKeyboardButton> buttons = new ArrayList<>();
+
+        var addToWishButton = new InlineKeyboardButton();
+        addToWishButton.setText("В желаемое \uD83D\uDC95");
+        addToWishButton.setCallbackData("%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+                                                            ADD_TO_WISH.getCommand(),
+                                                            shoesVendorCode));
+        buttons.add(addToWishButton);
+
         var nextShoesButton = new InlineKeyboardButton();
         nextShoesButton.setText("Следующая модель");
         nextShoesButton.setCallbackData(update.getCallbackQuery().getData());
         buttons.add(nextShoesButton);
+
         var keyboard = KeyboardUtil.getInlineKeyboard(buttons);
 
         message.setReplyMarkup(keyboard);
         return message;
+    }
+
+    /**
+     * Retrieves message about adding shoes to wish list
+     *
+     * @param update the update
+     * @return a message
+     */
+    private SendMessage getMessageForAddingShoesToWishList(Update update) {
+        val shoesVendorCodeParameterIndex = 0;
+        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+
+        val customerId = getChatId(update);
+
+        var shoes = shoesService.getByVendorCode(shoesVendorCode);
+        if (shoes == null) {
+            return createTextMessageForChat(customerId, "Ошибка. Модель %s не найдена.".formatted(shoesVendorCode));
+        }
+
+        val isShoesAdded = customerService.addShoesToWishList(customerId, shoes);
+        return createTextMessageForChat(
+                customerId,
+                isShoesAdded ? "Модель %s успешно добавлена в список желаемого!".formatted(shoesVendorCode)
+                             : "Модель %s уже добавлена в список желаемого.".formatted(shoesVendorCode)
+        );
     }
 }

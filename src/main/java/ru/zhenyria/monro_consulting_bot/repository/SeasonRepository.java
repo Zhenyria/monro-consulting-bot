@@ -15,8 +15,7 @@ public interface SeasonRepository extends JpaRepository<Season, String> {
             FROM Season s
             JOIN Shoes shoes ON shoes.season = s
             JOIN Customer c ON c.chatMemberId = :customerId
-                            AND c.scale.size = shoes.scale.size
-                            AND c.scale.volume = shoes.scale.volume
+            WHERE (c.scale.size, c.scale.volume) IN (SELECT sc.size, sc.volume FROM shoes.scales sc)
             """)
     List<Season> getLocalizedNamesOfRelatedToShoesWithCustomersScale(Long customerId);
 }
