@@ -7,16 +7,21 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.ScaleService;
+import ru.zhenyria.monro_consulting_bot.service.ShoesService;
 import ru.zhenyria.monro_consulting_bot.util.CommandUtil;
 import ru.zhenyria.monro_consulting_bot.util.KeyboardUtil;
 import ru.zhenyria.monro_consulting_bot.util.ShoesFilter;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -24,6 +29,7 @@ import java.util.function.Predicate;
 
 import static ru.zhenyria.monro_consulting_bot.util.StartCommand.GET_CHAT_MEMBERS_TOTAL_COUNT;
 import static ru.zhenyria.monro_consulting_bot.util.StartCommand.GET_RECOMMENDED_SHOES;
+import static ru.zhenyria.monro_consulting_bot.util.StartCommand.GET_WISH_LIST;
 import static ru.zhenyria.monro_consulting_bot.util.StartCommand.START_TRYING_ON_SHOES;
 
 /**
@@ -34,23 +40,24 @@ import static ru.zhenyria.monro_consulting_bot.util.StartCommand.START_TRYING_ON
 public class StartCommandService implements UpdateProcessableService {
     private final CustomerService customerService;
     private final ScaleService scaleService;
+    private final ShoesService shoesService;
 
     private final Map<Predicate<Update>, Function<Update, SendMessage>> updateHandlers = new HashMap<>();
 
     @PostConstruct
     private void init() {
-        this.updateHandlers.put(
+        updateHandlers.putAll(Map.of(
                 update -> CommandUtil.checkCommandIsSuitable(update, GET_CHAT_MEMBERS_TOTAL_COUNT),
                 update -> createTextMessageForChat(getChatId(update),
                                                    String.format("Общее количество пользователей: %d",
-                                                                 customerService.getChatMembersTotalCount()))
-        );
-
-        this.updateHandlers.put(update -> CommandUtil.checkCommandIsSuitable(update, START_TRYING_ON_SHOES),
-                                this::getMessageForStartTryingOnShoes);
-
-        this.updateHandlers.put(update -> CommandUtil.checkCommandIsSuitable(update, GET_RECOMMENDED_SHOES),
-                                this::getMessageForStartReceivingRecommendedShoes);
+                                                                 customerService.getChatMembersTotalCount())),
+                update -> CommandUtil.checkCommandIsSuitable(update, START_TRYING_ON_SHOES),
+                this::getMessageForStartTryingOnShoes,
+                update -> CommandUtil.checkCommandIsSuitable(update, GET_RECOMMENDED_SHOES),
+                this::getMessageForStartReceivingRecommendedShoes,
+                update -> CommandUtil.checkCommandIsSuitable(update, GET_WISH_LIST),
+                this::getMessageWithWishList
+        ));
     }
 
     @Override
@@ -130,6 +137,34 @@ public class StartCommandService implements UpdateProcessableService {
         var message = createTextMessageForChat(getChatId(update),
                                                "Каким образом вы желаете отфильтровать список обуви?");
 
+        message.setReplyMarkup(keyboard);
+        return message;
+    }
+
+    private SendMessage getMessageWithWishList(Update update) {
+        var wishedShoes = shoesService.getAllFromWishList(getChatMemberId(update));
+
+        val chatId = getChatId(update);
+        if (wishedShoes.isEmpty()) {
+            return createTextMessageForChat(chatId, "Вы ещё ничего не добавили в ваш список желаемого.");
+        }
+
+        List<List<InlineKeyboardButton>> linedButtons = new ArrayList<>();
+        KeyboardUtil.getInlineKeyboardButtons(wishedShoes,
+                                              shoes -> "%s %s".formatted(shoes.getModel().getLocalizedName(),
+                                                                         shoes.getVendorCode()),
+                                              shoes -> "%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+                                                                           GET_WISH_LIST.getCommand(),
+                                                                           shoes.getVendorCode()))
+                    .forEach(button -> linedButtons.add(List.of(button)));
+
+        var keyboard = new InlineKeyboardMarkup(linedButtons);
+
+        var message = createTextMessageForChat(chatId,
+                                               """
+                                                       Ниже представлен список артикулов обуви, добавленной вами в \
+                                                       список желаемого. Нажмите на интересующий вас артикул, чтобы \
+                                                       получить более подробную информацию.""");
         message.setReplyMarkup(keyboard);
         return message;
     }

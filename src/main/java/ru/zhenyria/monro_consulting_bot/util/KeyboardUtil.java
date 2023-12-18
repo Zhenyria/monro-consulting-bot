@@ -37,7 +37,7 @@ public class KeyboardUtil {
         return new InlineKeyboardMarkup(linedButtons);
     }
 
-    private static <T> List<InlineKeyboardButton> getInlineKeyboardButtons(List<T> elements,
+    public static <T> List<InlineKeyboardButton> getInlineKeyboardButtons(List<T> elements,
                                                                            Function<T, String> textProvider,
                                                                            Function<T, String> callbackDataProvider) {
         return elements.stream()

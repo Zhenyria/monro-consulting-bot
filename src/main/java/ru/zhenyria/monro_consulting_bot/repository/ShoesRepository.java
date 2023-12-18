@@ -23,4 +23,12 @@ public interface ShoesRepository extends JpaRepository<Shoes, String> {
     List<Shoes> getAllByCustomerIdAndSeasonNameAndShoesModelName(Long customerId,
                                                                  String seasonName,
                                                                  String shoesModelName);
+
+    @Query("""
+            SELECT DISTINCT s
+            FROM Shoes s
+            JOIN Customer c ON c.chatMemberId = :customerId
+            WHERE s.vendorCode IN (SELECT ws.vendorCode FROM c.wishedShoes AS ws)
+            """)
+    List<Shoes> getAllFromWishedListByCustomerId(Long customerId);
 }

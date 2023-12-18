@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.zhenyria.monro_consulting_bot.model.Season;
+import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.model.ShoesModel;
 import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.ScaleService;
@@ -34,6 +35,8 @@ import java.util.function.Predicate;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.ADD_TO_WISH;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.CHOOSE_SEASON;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.CHOOSE_SHOES_MODEL;
+import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.GET_FROM_WISH_LIST;
+import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.REMOVE_FROM_WISH_LIST;
 import static ru.zhenyria.monro_consulting_bot.util.CallbackCommand.SET_FEET_GIRTH;
 
 /**
@@ -81,6 +84,16 @@ public class CallbackService implements UpdateProcessableService {
         this.updateHandlers.put(
                 update -> CallbackCommandUtil.checkCommandIsSuitable(update, ADD_TO_WISH.getCommand()),
                 this::getMessageForAddingShoesToWishList
+        );
+
+        this.updateHandlers.put(
+                update -> CallbackCommandUtil.checkCommandIsSuitable(update, GET_FROM_WISH_LIST.getInitialCommand()),
+                this::getMessageWithShoesFromWishList
+        );
+
+        this.updateHandlers.put(
+                update -> CallbackCommandUtil.checkCommandIsSuitable(update, REMOVE_FROM_WISH_LIST.getCommand()),
+                this::getMessageForShoesRemovedFromWishList
         );
     }
 
@@ -277,22 +290,7 @@ public class CallbackService implements UpdateProcessableService {
             return createTextMessageForChat(getChatId(update), "Подходящей обуви по вашему размеру не найдено");
         }
 
-        val shoesVendorCode = randomShoes.getVendorCode();
-        val messageText = """
-                %s %s
-                Артикул: %s
-                                
-                %s
-                                
-                Страница в магазине: %s
-                Изображение: %s""".formatted(randomShoes.getModel().getLocalizedName(),
-                                             randomShoes.getName(),
-                                             shoesVendorCode,
-                                             randomShoes.getDescription(),
-                                             randomShoes.getUrl(),
-                                             randomShoes.getImageUrl());
-
-        var message = createTextMessageForChat(getChatId(update), messageText);
+        var message = createTextMessageForChat(getChatId(update), getShoesDescription(randomShoes));
 
         List<InlineKeyboardButton> buttons = new ArrayList<>();
 
@@ -300,7 +298,7 @@ public class CallbackService implements UpdateProcessableService {
         addToWishButton.setText("В желаемое \uD83D\uDC95");
         addToWishButton.setCallbackData("%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
                                                             ADD_TO_WISH.getCommand(),
-                                                            shoesVendorCode));
+                                                            randomShoes.getVendorCode()));
         buttons.add(addToWishButton);
 
         var nextShoesButton = new InlineKeyboardButton();
@@ -337,5 +335,75 @@ public class CallbackService implements UpdateProcessableService {
                 isShoesAdded ? "Модель %s успешно добавлена в список желаемого!".formatted(shoesVendorCode)
                              : "Модель %s уже добавлена в список желаемого.".formatted(shoesVendorCode)
         );
+    }
+
+    /**
+     * Retrieves message with shoes from wish list
+     *
+     * @param update the update
+     * @return a message with keyboard
+     */
+    private SendMessage getMessageWithShoesFromWishList(Update update) {
+        val shoesVendorCodeParameterIndex = 0;
+        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+
+        var shoes = shoesService.getByVendorCode(shoesVendorCode);
+
+        val chatId = getChatId(update);
+        if (shoes == null) {
+            return createTextMessageForChat(chatId, "Ошибка. Модель %s не найдена".formatted(shoesVendorCode));
+        }
+
+        var message = createTextMessageForChat(chatId, getShoesDescription(shoes));
+
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        var removeFromWishListButton = new InlineKeyboardButton();
+        removeFromWishListButton.setText("Удалить из списка желаемого");
+        removeFromWishListButton.setCallbackData("%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+                                                                     REMOVE_FROM_WISH_LIST.getCommand(),
+                                                                     shoesVendorCode));
+        buttons.add(removeFromWishListButton);
+
+        message.setReplyMarkup(KeyboardUtil.getInlineKeyboard(buttons));
+        return message;
+    }
+
+    /**
+     * Removes shoes from customer's wish list and retrieves message
+     *
+     * @param update the update
+     * @return a message
+     */
+    private SendMessage getMessageForShoesRemovedFromWishList(Update update) {
+        val shoesVendorCodeParameterIndex = 0;
+        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+        val customerId = getChatMemberId(update);
+
+        customerService.removeShoesFromWishList(customerId, shoesVendorCode);
+
+        return createTextMessageForChat(getChatId(update),
+                                        "Модель %s успешно удалена из списка желаемого".formatted(shoesVendorCode));
+    }
+
+    /**
+     * Creates standard shoes text description
+     *
+     * @param shoes the shoes instance
+     * @return a description
+     */
+    private static String getShoesDescription(Shoes shoes) {
+        return """
+                %s %s
+                Артикул: %s
+                                
+                %s
+                                
+                Страница в магазине: %s
+                Изображение: %s""".formatted(shoes.getModel().getLocalizedName(),
+                                             shoes.getName(),
+                                             shoes.getVendorCode(),
+                                             shoes.getDescription(),
+                                             shoes.getUrl(),
+                                             shoes.getImageUrl());
     }
 }

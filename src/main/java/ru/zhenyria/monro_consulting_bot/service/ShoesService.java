@@ -7,6 +7,7 @@ import ru.zhenyria.monro_consulting_bot.repository.ShoesRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +39,15 @@ public class ShoesService {
                                     .intValue();
 
         return shoes.get(randomIndex);
+    }
+
+    /**
+     * Retrieves all shoes from customer's wish list
+     *
+     * @param customerId the id of the customer
+     * @return list of shoes
+     */
+    public List<Shoes> getAllFromWishList(Long customerId) {
+        return repository.getAllFromWishedListByCustomerId(customerId);
     }
 }

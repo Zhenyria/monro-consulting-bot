@@ -49,6 +49,29 @@ public class CustomerService {
         return true;
     }
 
+    /**
+     * Removes shoes from customer's wish list
+     *
+     * @param id              the id of the customer
+     * @param shoesVendorCode the id of the removing shoes
+     */
+    @Transactional
+    public void removeShoesFromWishList(Long id, String shoesVendorCode) {
+        var customer = this.get(id);
+        var wishedShoes = customer.getWishedShoes();
+
+        var iterator = wishedShoes.iterator();
+
+        while (iterator.hasNext()) {
+            var shoes = iterator.next();
+
+            if (shoes.getVendorCode().equals(shoesVendorCode)) {
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
     @Transactional
     public boolean removeByChatMemberId(Long id) {
         return repository.removeByChatMemberId(id) > 0;

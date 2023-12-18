@@ -10,9 +10,11 @@ import lombok.experimental.FieldDefaults;
 @Getter
 public enum CallbackCommand {
     ADD_TO_WISH(null, "add_to_wish"),
-    SET_FEET_GIRTH(StartCommand.START_TRYING_ON_SHOES.getCommand(), "girth"),
     CHOOSE_SEASON(StartCommand.GET_RECOMMENDED_SHOES.getCommand(), "season"),
-    CHOOSE_SHOES_MODEL(StartCommand.GET_RECOMMENDED_SHOES.getCommand(), "shoes_model");
+    CHOOSE_SHOES_MODEL(StartCommand.GET_RECOMMENDED_SHOES.getCommand(), "shoes_model"),
+    GET_FROM_WISH_LIST(StartCommand.GET_WISH_LIST.getCommand(), "wished_shoes"),
+    REMOVE_FROM_WISH_LIST(GET_FROM_WISH_LIST.getCommand(), "remove_from_wishlist"),
+    SET_FEET_GIRTH(StartCommand.START_TRYING_ON_SHOES.getCommand(), "girth");
 
     String initialCommand;
     String command;
