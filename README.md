@@ -9,10 +9,12 @@ The bot is able to greet new or returned users and keeps records of all users wh
 
 ## Commands :speech_balloon:
 
-| command          | description                                                  | Localized description                   |
-|------------------|--------------------------------------------------------------|-----------------------------------------|
-| `/members_count` | returns total amount of all users which use the bot nowadays | Получить общее количество пользователей |
-| `/size`          | sets customer's scale                                        | Установить свой размер                  |
+| command              | description                                                  | Localized description                   |
+|----------------------|--------------------------------------------------------------|-----------------------------------------|
+| `/members_count`     | returns total amount of all users which use the bot nowadays | Получить общее количество пользователей |
+| `/recommended_shoes` | returns recommended shoes                                    | Получить рекомендуемую обувь            |
+| `/size`              | sets customer's scale                                        | Установить свой размер                  |
+| `/wish_list`         | returns current wish list                                    | Получить список желаемого               |
 
 ## Technology stack
 
