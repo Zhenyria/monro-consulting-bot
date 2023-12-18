@@ -11,7 +11,8 @@ import ru.zhenyria.monro_consulting_bot.repository.TextTemplateRepository;
 public class TextTemplateRepositoryTestUtil {
     public static final String DEFAULT_TEMPLATE_CODE = "GREETING";
 
-    private static final TextTemplate DEFAULT_TEMPLATE = new TextTemplate(DEFAULT_TEMPLATE_CODE, "Hi, how are you?");
+    private static final TextTemplate DEFAULT_TEMPLATE = new TextTemplate(DEFAULT_TEMPLATE_CODE,
+                                                                          "Привет, я умный бот!");
 
     public static TextTemplate getDefaultTemplate() {
         return new TextTemplate(DEFAULT_TEMPLATE.getKey(), DEFAULT_TEMPLATE.getText());
