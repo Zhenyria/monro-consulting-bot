@@ -322,16 +322,16 @@ public class CallbackService implements UpdateProcessableService {
         val shoesVendorCodeParameterIndex = 0;
         val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
 
-        val customerId = getChatId(update);
+        val chatId = getChatId(update);
 
         var shoes = shoesService.getByVendorCode(shoesVendorCode);
         if (shoes == null) {
-            return createTextMessageForChat(customerId, "Ошибка. Модель %s не найдена.".formatted(shoesVendorCode));
+            return createTextMessageForChat(chatId, "Ошибка. Модель %s не найдена.".formatted(shoesVendorCode));
         }
 
-        val isShoesAdded = customerService.addShoesToWishList(customerId, shoes);
+        val isShoesAdded = customerService.addShoesToWishList(chatId, shoes);
         return createTextMessageForChat(
-                customerId,
+                chatId,
                 isShoesAdded ? "Модель %s успешно добавлена в список желаемого!".formatted(shoesVendorCode)
                              : "Модель %s уже добавлена в список желаемого.".formatted(shoesVendorCode)
         );
