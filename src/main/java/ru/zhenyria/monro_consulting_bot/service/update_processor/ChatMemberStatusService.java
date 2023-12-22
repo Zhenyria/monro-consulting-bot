@@ -105,7 +105,7 @@ class ChatMemberStatusService implements UpdateProcessableService {
         return Optional.of(update)
                        .map(Update::getMyChatMember)
                        .map(ChatMemberUpdated::getFrom)
-                       .map(User::getUserName)
+                       .map(user -> Objects.requireNonNullElseGet(user.getUserName(), user::getFirstName))
                        .orElse(null);
     }
 
