@@ -95,3 +95,9 @@ CREATE TABLE IF NOT EXISTS customer_shoes_wish
     CONSTRAINT fk__customer_shoes_wish__shoes__vendor_code__vendor_code
         FOREIGN KEY (vendor_code) REFERENCES shoes (vendor_code)
 );
+
+CREATE TABLE IF NOT EXISTS users
+(
+    name_val VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NULL
+);

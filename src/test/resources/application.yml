@@ -1,4 +1,12 @@
+application:
+  security:
+    root:
+      name: root
+      password: root
+
 spring:
+  application:
+    name: Monro consulting bot
   datasource:
     url: jdbc:h2:mem:monro;DB_CLOSE_DELAY=-1
     username: sa
@@ -6,9 +14,10 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: validate # Checks that existing schema are fitted for existing entities
+    open-in-view: false
     show-sql: true
   sql:
     init:

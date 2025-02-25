@@ -1,0 +1,34 @@
+application:
+  security:
+    root:
+      name: ${ADMIN_NAME:root}
+      password: ${ADMIN_PASSWORD:root}
+
+spring:
+  application:
+    name: Monro consulting bot
+  datasource:
+    url: jdbc:postgresql://${DB_ADDRESS:localhost:5432/monro}
+    username: ${DB_USER:user}
+    password: ${DB_PASSWORD:password}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+  mvc.view:
+    prefix: /WEB-INF/jsp
+    suffix: .jsp
+  sql:
+    init:
+      mode: never
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
+      enabled: true # Enable http encoding support
+      force: true
