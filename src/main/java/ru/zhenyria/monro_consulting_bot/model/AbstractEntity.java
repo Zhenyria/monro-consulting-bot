@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,5 +23,6 @@ public abstract class AbstractEntity {
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", initialValue = START_SEQ, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @Column(name = "id")
     Integer id;
 }

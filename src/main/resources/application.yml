@@ -14,9 +14,9 @@ spring:
     driverClassName: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     open-in-view: false
     show-sql: false
   mvc.view:
@@ -24,7 +24,9 @@ spring:
     suffix: .jsp
   sql:
     init:
-      mode: never
+      mode: always
+      data-locations: classpath:init.sql
+      schema-locations: classpath:schema.sql
 
 server:
   servlet:
