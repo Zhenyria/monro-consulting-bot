@@ -2,11 +2,10 @@ package ru.zhenyria.monro_consulting_bot.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.zhenyria.monro_consulting_bot.model.Customer;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.repository.CustomerRepository;
-
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +48,14 @@ public class CustomerService {
         return true;
     }
 
+    @Transactional
+    public void removeShoesFromWishLists(String shoesVendorCode) {
+        repository.findAllByWishedShoes(shoesVendorCode)
+                  .stream()
+                  .map(Customer::getChatMemberId)
+                  .forEach(id -> removeShoesFromWishList(id, shoesVendorCode));
+    }
+
     /**
      * Removes shoes from customer's wish list
      *
@@ -73,7 +80,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public boolean removeByChatMemberId(Long id) {
-        return repository.removeByChatMemberId(id) > 0;
+    public void removeByChatMemberId(Long id) {
+        repository.removeByChatMemberId(id);
     }
 }
