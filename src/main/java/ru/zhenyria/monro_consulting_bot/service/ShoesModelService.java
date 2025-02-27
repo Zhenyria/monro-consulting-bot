@@ -19,6 +19,11 @@ public class ShoesModelService {
         return repository.getReferenceById(name);
     }
 
+    public List<ShoesModel> getAll() {
+        return repository.findAll();
+    }
+
+
     /**
      * Retrieves models of shoes available for a customer
      *

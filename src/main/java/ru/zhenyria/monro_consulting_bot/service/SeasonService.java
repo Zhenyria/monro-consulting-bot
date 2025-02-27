@@ -19,6 +19,10 @@ public class SeasonService {
         return repository.getReferenceById(name);
     }
 
+    public List<Season> getAll() {
+        return repository.findAll();
+    }
+
     /**
      * Retrieves seasons which contains shoes available for a customer
      *
