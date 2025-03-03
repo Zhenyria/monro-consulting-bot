@@ -1,4 +1,4 @@
-package ru.zhenyria.monro_consulting_bot.dto;
+package ru.zhenyria.monro_consulting_bot.dto.request;
 
 import lombok.Value;
 

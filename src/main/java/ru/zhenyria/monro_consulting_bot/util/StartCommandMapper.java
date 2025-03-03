@@ -1,6 +1,7 @@
 package ru.zhenyria.monro_consulting_bot.util;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * The mapper for {@link StartCommand}
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface StartCommandMapper {
 
     /**

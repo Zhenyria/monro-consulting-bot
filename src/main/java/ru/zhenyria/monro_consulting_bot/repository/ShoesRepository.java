@@ -20,9 +20,9 @@ public interface ShoesRepository extends JpaRepository<Shoes, String> {
             AND (:shoesModelName IS NULL OR sm.name = :shoesModelName)
             AND (c.scale.size, c.scale.volume) IN (SELECT sc.size, sc.volume FROM s.scales sc)
             """)
-    List<Shoes> getAllByCustomerIdAndSeasonNameAndShoesModelName(Long customerId,
-                                                                 String seasonName,
-                                                                 String shoesModelName);
+    List<Shoes> findAllByCustomerIdAndSeasonNameAndShoesModelName(Long customerId,
+                                                                  String seasonName,
+                                                                  String shoesModelName);
 
     @Query("""
             SELECT DISTINCT s
@@ -30,5 +30,12 @@ public interface ShoesRepository extends JpaRepository<Shoes, String> {
             JOIN Customer c ON c.chatMemberId = :customerId
             WHERE s.vendorCode IN (SELECT ws.vendorCode FROM c.wishedShoes AS ws)
             """)
-    List<Shoes> getAllFromWishedListByCustomerId(Long customerId);
+    List<Shoes> findAllFromWishedListByCustomerId(Long customerId);
+
+    @Query("""
+            SELECT s
+            FROM Shoes s
+            JOIN FETCH s.scales
+            """)
+    List<Shoes> findAllWithScales();
 }

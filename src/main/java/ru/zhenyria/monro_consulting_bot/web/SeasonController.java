@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.zhenyria.monro_consulting_bot.dto.SeasonsDto;
+import ru.zhenyria.monro_consulting_bot.dto.response.SeasonsDto;
 import ru.zhenyria.monro_consulting_bot.service.SeasonService;
 
 import java.util.stream.Collectors;

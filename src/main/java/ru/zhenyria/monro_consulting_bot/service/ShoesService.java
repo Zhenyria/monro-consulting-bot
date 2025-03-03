@@ -3,7 +3,7 @@ package ru.zhenyria.monro_consulting_bot.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.zhenyria.monro_consulting_bot.dto.ShoesCreateRequestDto;
+import ru.zhenyria.monro_consulting_bot.dto.request.ShoesCreateRequestDto;
 import ru.zhenyria.monro_consulting_bot.model.ScaleId;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.repository.ShoesRepository;
@@ -59,7 +59,7 @@ public class ShoesService {
      * @return randomly picked shoes
      */
     public Shoes getRandomByCustomerAndSeasonAndModel(Long customerId, String season, String shoesModel) {
-        var shoes = repository.getAllByCustomerIdAndSeasonNameAndShoesModelName(customerId, season, shoesModel);
+        var shoes = repository.findAllByCustomerIdAndSeasonNameAndShoesModelName(customerId, season, shoesModel);
 
         if (shoes.isEmpty()) {
             return null;
@@ -73,7 +73,9 @@ public class ShoesService {
     }
 
     public List<Shoes> getAll() {
-        return repository.findAll();
+        var shoes = repository.findAll();
+        shoes = repository.findAllWithScales();
+        return shoes;
     }
 
     /**
@@ -83,7 +85,7 @@ public class ShoesService {
      * @return list of shoes
      */
     public List<Shoes> getAllFromWishList(Long customerId) {
-        return repository.getAllFromWishedListByCustomerId(customerId);
+        return repository.findAllFromWishedListByCustomerId(customerId);
     }
 
     @Transactional
