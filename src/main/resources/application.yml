@@ -13,14 +13,13 @@ spring:
     password: ${DB_PASSWORD:password}
     driverClassName: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: false
     hibernate:
       ddl-auto: none
     open-in-view: false
     show-sql: false
   mvc.view:
-    prefix: /WEB-INF/jsp
+    prefix: /WEB-INF/jsp/
     suffix: .jsp
   sql:
     init:

@@ -1,5 +1,6 @@
 package ru.zhenyria.monro_consulting_bot.service.update_processor;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import ru.zhenyria.monro_consulting_bot.util.CommandUtil;
 import ru.zhenyria.monro_consulting_bot.util.KeyboardUtil;
 import ru.zhenyria.monro_consulting_bot.util.ShoesFilter;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

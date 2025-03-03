@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.4.3</version>
         <relativePath/>
     </parent>
     <groupId>ru.zhenyria</groupId>
@@ -14,12 +14,13 @@
     <version>0.1.1</version>
     <name>monro-consulting-bot</name>
     <description>monro-consulting-bot</description>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <properties>
-        <java.version>15</java.version>
-        <spring.version>2.7.18</spring.version>
+        <java.version>17</java.version>
+        <spring.version>3.4.3</spring.version>
 
+        <jstl-api.version>3.0.2</jstl-api.version>
         <h2.version>2.1.214</h2.version>
         <lombok-mapstruct-binding.version>0.1.0</lombok-mapstruct-binding.version>
         <lombok.version>1.18.24</lombok.version>
@@ -28,6 +29,7 @@
         <maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
         <maven-toolchains-plugin.version>3.1.0</maven-toolchains-plugin.version>
         <maven-help-plugin.version>3.3.0</maven-help-plugin.version>
+        <tomcat-embed-jasper.version>11.0.4</tomcat-embed-jasper.version>
         <type-safe-config.version>1.4.2</type-safe-config.version>
         <telegrambots-spring-boot-starter.version>6.1.0</telegrambots-spring-boot-starter.version>
         <postgresql.version>42.7.5</postgresql.version>
@@ -49,6 +51,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Web -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>${jstl-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>${tomcat-embed-jasper.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Telegram -->
@@ -103,7 +118,7 @@
     </dependencies>
 
     <build>
-        <finalName>monro-consulting-bot-${version}</finalName>
+        <finalName>monro-consulting-bot-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

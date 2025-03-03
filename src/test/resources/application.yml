@@ -13,12 +13,14 @@ spring:
     password: sa
     driverClassName: org.h2.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: false
     hibernate:
       ddl-auto: validate # Checks that existing schema are fitted for existing entities
     open-in-view: false
     show-sql: true
+  mvc.view:
+    prefix: /WEB-INF/jsp/
+    suffix: .jsp
   sql:
     init:
       mode: always

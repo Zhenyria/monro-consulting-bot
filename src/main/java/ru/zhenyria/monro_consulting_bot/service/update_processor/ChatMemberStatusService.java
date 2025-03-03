@@ -1,5 +1,6 @@
 package ru.zhenyria.monro_consulting_bot.service.update_processor;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import ru.zhenyria.monro_consulting_bot.model.Customer;
 import ru.zhenyria.monro_consulting_bot.service.CustomerService;
 import ru.zhenyria.monro_consulting_bot.service.TextTemplateService;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
