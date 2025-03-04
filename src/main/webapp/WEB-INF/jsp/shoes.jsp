@@ -4,10 +4,12 @@
 <head>
     <title>Shoes</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/shoes.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/shoes.js"></script>
 </head>
 <body>
 <h1>Shoes</h1>
+<button onclick="redirect('/shoes/creating')">Create shoes</button>
 <table class="mainTable">
     <thead>
     <tr>
@@ -25,7 +27,7 @@
     <tbody>
     <c:forEach items="${shoes}" var="shoesItem">
         <tr>
-            <td><img src="${shoesItem.imageUrl}" alt="${shoesItem.name}"/></td>
+            <td><img class="shoesImage" src="${shoesItem.imageUrl}" alt="${shoesItem.name}"/></td>
             <td>${shoesItem.vendorCode}</td>
             <td>${shoesItem.name}</td>
             <td>${shoesItem.description}</td>
@@ -45,7 +47,7 @@
                 </table>
             </td>
             <td>
-                <button title="Delete" onclick="deleteShoes(${shoesItem.vendorCode})">Delete</button>
+                <button title="Delete" onclick="deleteShoes('${shoesItem.vendorCode}')">Delete</button>
             </td>
         </tr>
     </c:forEach>

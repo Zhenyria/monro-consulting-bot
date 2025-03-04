@@ -1,6 +1,7 @@
 package ru.zhenyria.monro_consulting_bot.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zhenyria.monro_consulting_bot.dto.request.ShoesCreateRequestDto;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ShoesService {
     private final CustomerService customerService;
@@ -25,19 +27,19 @@ public class ShoesService {
 
     @Transactional
     public void create(ShoesCreateRequestDto createRequest) {
-        var season = seasonService.getReference(createRequest.getSeasonName());
-        var model = modelService.getReference(createRequest.getModelName());
-        var scales = scaleService.getReferences(Optional.ofNullable(createRequest.getSizes())
+        var season = seasonService.getReference(createRequest.seasonName());
+        var model = modelService.getReference(createRequest.modelName());
+        var scales = scaleService.getReferences(Optional.ofNullable(createRequest.scales())
                                                         .stream()
                                                         .flatMap(List::stream)
-                                                        .map(dto -> new ScaleId(dto.getSize(), dto.getVolume()))
+                                                        .map(dto -> new ScaleId(dto.size(), dto.volume()))
                                                         .collect(Collectors.toList()));
 
-        var shoes = new Shoes(createRequest.getVendorCode(),
-                              createRequest.getUrl(),
-                              createRequest.getName(),
-                              createRequest.getDescription(),
-                              createRequest.getImageUrl(),
+        var shoes = new Shoes(createRequest.vendorCode(),
+                              createRequest.url(),
+                              createRequest.name(),
+                              createRequest.description(),
+                              createRequest.imageUrl(),
                               scales,
                               season,
                               model);
@@ -74,7 +76,11 @@ public class ShoesService {
 
     public List<Shoes> getAll() {
         var shoes = repository.findAll();
-        shoes = repository.findAllWithScales();
+        val vendorCodes = shoes.stream()
+                               .map(Shoes::getVendorCode)
+                               .toList();
+
+        shoes = repository.findAllByVendorCodesFetchingScales(vendorCodes);
         return shoes;
     }
 

@@ -25,6 +25,10 @@ public class ScaleService {
 
     private final ScaleRepository repository;
 
+    public List<Scale> getAll() {
+        return repository.findAll();
+    }
+
     @Transactional(propagation = Propagation.MANDATORY)
     public List<Scale> getReferences(List<ScaleId> ids) {
         return Optional.ofNullable(ids)

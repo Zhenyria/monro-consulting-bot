@@ -35,7 +35,8 @@ public interface ShoesRepository extends JpaRepository<Shoes, String> {
     @Query("""
             SELECT s
             FROM Shoes s
-            JOIN FETCH s.scales
+            LEFT JOIN FETCH s.scales
+            WHERE s.vendorCode IN (:vendorCodes)
             """)
-    List<Shoes> findAllWithScales();
+    List<Shoes> findAllByVendorCodesFetchingScales(List<String> vendorCodes);
 }

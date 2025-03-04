@@ -1,24 +1,21 @@
 package ru.zhenyria.monro_consulting_bot.dto.request;
 
-import lombok.Value;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
 
-@Value
-public class ShoesCreateRequestDto implements Serializable {
-    String vendorCode;
-    String url;
-    String name;
-    String description;
-    String imageUrl;
-    List<SizeId> sizes;
-    String seasonName;
-    String modelName;
+public record ShoesCreateRequestDto(@NotBlank String vendorCode,
+                                    @NotBlank String url,
+                                    @NotBlank String name,
+                                    @NotBlank String description,
+                                    @NotBlank String imageUrl,
+                                    List<@Valid @NotNull Scale> scales,
+                                    @NotBlank String seasonName,
+                                    @NotBlank String modelName) implements Serializable {
 
-    @Value
-    public static class SizeId implements Serializable {
-        Integer size;
-        Integer volume;
+    public record Scale(@NotNull Integer size, @NotNull Integer volume) implements Serializable {
     }
 }
