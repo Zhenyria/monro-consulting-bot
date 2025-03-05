@@ -1,0 +1,23 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 50px;
+}
+
+.titleBlock {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.title {
+    margin: 0;
+}
+
+.logoutBlock {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}

@@ -48,6 +48,6 @@ const createShoes = () => {
             redirect('/shoes');
         })
         .catch(error => {
-            console.error(`The shoes ${vendorCode} can not be created: `, error);
+            alert(`The shoes ${vendorCode} can not be created: ${error}`);
         });
 };

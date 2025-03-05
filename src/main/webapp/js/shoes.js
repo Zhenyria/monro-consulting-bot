@@ -12,6 +12,6 @@ const deleteShoes = (vendorCode) => {
             reloadPage();
         })
         .catch(error => {
-            console.error(`The shoes ${vendorCode} can not be deleted: `, error);
+            alert(`The shoes ${vendorCode} can not be deleted: ${error}`);
         });
 };

@@ -3,12 +3,14 @@
 <html>
 <head>
     <title>Shoes</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/shoes.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/common.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/shoes.js"></script>
 </head>
 <body>
-<h1>Shoes</h1>
+<%@ include file="header.jsp" %>
+<h2>Shoes</h2>
 <button onclick="redirect('/shoes/creating')">Create shoes</button>
 <table class="mainTable">
     <thead>
