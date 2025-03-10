@@ -1,17 +1,10 @@
-FROM openjdk:15-jdk-alpine
-
-ARG JAR_FILE=target/*.jar
-ARG DB_DIRECTORY=db
-ARG CONFIG_FILE=config/telegram.conf
-
-ENV EXTERNAL_PORT=8080
-
+# Stage 1: Build the application
+FROM maven:3.8.1-openjdk-17-slim AS build
 WORKDIR /app
+COPY . ./project
+WORKDIR /app/project
+RUN mvn clean package
 
-COPY $JAR_FILE ./app.jar
-COPY $DB_DIRECTORY ./$DB_DIRECTORY
-COPY $CONFIG_FILE ./$CONFIG_FILE
-
-EXPOSE $EXTERNAL_PORT
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Stage 2: Create the image
+FROM tomcat:11.0-jdk17
+COPY --from=build /app/project/target/*.war /usr/local/tomcat/webapps/ROOT.war

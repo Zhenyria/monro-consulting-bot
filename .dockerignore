@@ -1,0 +1,9 @@
+*.iml
+*.md
+.idea
+.target
+.codacy.yml
+.gitignore
+.travis.yml
+LICENSE
+Makefile
