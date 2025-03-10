@@ -1,4 +1,4 @@
-# Replace zhenyria by name of actual docker hub account
+# Replace zhenyria by name of actual dockerhub account
 
 create_image:
 	mvn clean package -Plocal
