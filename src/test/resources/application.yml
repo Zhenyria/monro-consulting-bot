@@ -5,6 +5,7 @@ application:
       password: root
 
 spring:
+  profiles.active: test
   application:
     name: Monro consulting bot
   datasource:
