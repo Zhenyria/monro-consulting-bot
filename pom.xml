@@ -31,7 +31,6 @@
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
         <maven-help-plugin.version>3.3.0</maven-help-plugin.version>
-        <tomcat-embed-jasper.version>11.0.4</tomcat-embed-jasper.version>
         <type-safe-config.version>1.4.2</type-safe-config.version>
         <telegrambots-spring-boot-starter.version>6.9.7.1</telegrambots-spring-boot-starter.version>
         <postgresql.version>42.7.5</postgresql.version>
@@ -75,12 +74,6 @@
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
             <version>${el-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>${tomcat-embed-jasper.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Telegram -->
@@ -212,6 +205,17 @@
         <!-- Profile for using with toolchain -->
         <profile>
             <id>local</id>
+            <properties>
+                <tomcat-embed-jasper.version>11.0.4</tomcat-embed-jasper.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-jasper</artifactId>
+                    <version>${tomcat-embed-jasper.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>

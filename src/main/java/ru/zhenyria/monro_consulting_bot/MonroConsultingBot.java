@@ -1,38 +1,36 @@
 package ru.zhenyria.monro_consulting_bot;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.zhenyria.monro_consulting_bot.service.update_processor.MonroConsultingService;
 import ru.zhenyria.monro_consulting_bot.util.StartCommand;
 import ru.zhenyria.monro_consulting_bot.util.StartCommandMapper;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor
 public class MonroConsultingBot extends TelegramLongPollingBot {
-
+    private final String botName;
+    private final MonroConsultingService monroConsultingService;
     private final StartCommandMapper startCommandMapper;
 
-    @Value("${telegram.botName}")
-    private String botName;
-
-    @Value("${telegram.botToken}")
-    private String botToken;
-
-    private final MonroConsultingService monroConsultingService;
+    public MonroConsultingBot(@Value("${telegram.botName}") String botName,
+                              @Value("${telegram.botToken}") String botToken,
+                              MonroConsultingService monroConsultingService,
+                              StartCommandMapper startCommandMapper) {
+        super(botToken);
+        this.botName = botName;
+        this.monroConsultingService = monroConsultingService;
+        this.startCommandMapper = startCommandMapper;
+    }
 
     @Override
     public String getBotUsername() {
@@ -40,13 +38,8 @@ public class MonroConsultingBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public String getBotToken() {
-        return botToken;
-    }
-
-    @Override
     public void onUpdateReceived(Update update) {
-        SendMessage message = monroConsultingService.handleUpdate(update);
+        var message = monroConsultingService.handleUpdate(update);
         if (Objects.nonNull(message)) {
             try {
                 super.execute(message);
@@ -73,10 +66,9 @@ public class MonroConsultingBot extends TelegramLongPollingBot {
      * @return {@link SetMyCommands} instance which contains list of available commands
      */
     private SetMyCommands getCommands() {
-        List<BotCommand> botCommands = startCommandMapper.mapToBotCommand(
-                Arrays.stream(StartCommand.values()).collect(Collectors.toList())
-        );
-        SetMyCommands myCommands = new SetMyCommands();
+        var botCommands = startCommandMapper.mapToBotCommand(Arrays.stream(StartCommand.values())
+                                                                   .collect(Collectors.toList()));
+        var myCommands = new SetMyCommands();
         myCommands.setCommands(botCommands);
         return myCommands;
     }

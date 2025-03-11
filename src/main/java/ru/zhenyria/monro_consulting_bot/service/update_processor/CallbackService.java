@@ -395,9 +395,9 @@ public class CallbackService implements UpdateProcessableService {
         return """
                 %s %s
                 Артикул: %s
-                                
+                
                 %s
-                                
+                
                 Страница в магазине: %s
                 Изображение: %s""".formatted(shoes.getModel().getLocalizedName(),
                                              shoes.getName(),

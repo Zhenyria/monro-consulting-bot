@@ -1,4 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/35f78eaef7d84690ad81819853527f8c)](https://www.codacy.com/gh/Zhenyria/monro-consulting-bot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Zhenyria/monro-consulting-bot&amp;utm_campaign=Badge_Grade)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Zhenyria/monro-consulting-bot/blob/master/LICENSE)
 
 # Monro consulting bot
 
@@ -32,31 +33,23 @@ All commands are described in [the enum](src/main/java/ru/zhenyria/monro_consult
 ## Technology stack
 
 - Java 17
-  - Hibernate
-  - Maven _(with `toolchains` plugin)_
-  - Spring Boot
-  - HOCON
+    - Hibernate
+    - Maven _(with `toolchains` plugin)_
+    - Spring Boot
+    - HOCON
 - PostgresSQL
 - Docker
 
-## Docker image creating :whale:
+## Launching the application :arrow_forward:
 
-### Requirements
+### Local run
 
-- Docker
-- Makefile
-- Java 17
-- Maven (with toolchain plugin)
-
-### Steps
-
-To create `Docker` image follow these steps:
-
+- Turn on `local` Maven profile
 - Rename `config/telegram-example.conf` to `config/telegram.conf`
-- Write name and token of your bot in `config/telegram.conf`
-- Replace **zhenyria** in `Makefile` by name of your Docker hub account (it is necessary for pushing created image to
-  your
-  Docker hub repository)
-- Run `make create_image tag=<WRITE TAG HERE>`
+- Write name and token of your Telegram bot in `config/telegram.conf`
 
-The image will is created. It could be run by `make run tag=<WRITE TAG HERE>`
+### Docker image creating :whale:
+
+- Replace **zhenyria** in `Makefile` by name of your Dockerhub account (it is necessary for pushing created image to
+  your Dockerhub repository)
+- Run `make build tag=<WRITE TAG HERE>`
