@@ -33,7 +33,7 @@ build/
 .vscode/
 
 ### HSQLDB ###
-db/
+/db/
 
 ### PRODUCTION CONFIG ###
 config/telegram.conf

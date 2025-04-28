@@ -27,7 +27,7 @@ import java.util.List;
  * The entity for telegram chat members
  */
 @Entity
-@Table(schema = "public", name = "customer")
+@Table(name = "customer", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,6 +49,7 @@ public class Customer implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_scale",
+            schema = "monro",
             joinColumns = {
                     @JoinColumn(name = "customer_id", referencedColumnName = "chat_member_id")
             },
@@ -62,6 +63,7 @@ public class Customer implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "customer_shoes_wish",
+            schema = "monro",
             joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "chat_member_id"),
             inverseJoinColumns = @JoinColumn(name = "vendor_code", referencedColumnName = "vendor_code")
 

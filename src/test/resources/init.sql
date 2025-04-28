@@ -1,12 +1,12 @@
-INSERT INTO text_template (key_value, text_value)
+INSERT INTO monro.text_template (key_value, text_value)
 VALUES ('GREETING', 'Привет, я умный бот!'),
        ('GREETING_FOR_RETURNED', 'Привет, хорошо, что ты вернулся!');
 
-INSERT INTO customer (chat_member_id, user_name)
+INSERT INTO monro.customer (chat_member_id, user_name)
 VALUES (1, 'default_user_1'),
        (2, 'default_user_2');
 
-INSERT INTO scale (size, volume, foot_length, foot_girth)
+INSERT INTO monro.scale (size, volume, foot_length, foot_girth)
 VALUES (35, 3, 22.5, 20.5),
        (36, 3, 23, 20.9),
        (37, 3, 24, 21.3),
@@ -32,12 +32,12 @@ VALUES (35, 3, 22.5, 20.5),
        (41, 9, 26.5, 25.6),
        (42, 9, 27, 26);
 
-INSERT INTO season (name_val, localized_name)
+INSERT INTO monro.season (name_val, localized_name)
 VALUES ('Summer', 'Лето'),
        ('Winter', 'Зима'),
        ('Demi-season', 'Весна-осень');
 
-INSERT INTO shoes_model (name_val, localized_name)
+INSERT INTO monro.shoes_model (name_val, localized_name)
 VALUES ('high_boots', 'Сапоги'),
        ('shoes', 'Туфли'),
        ('boots', 'Ботинки'),
@@ -45,7 +45,7 @@ VALUES ('high_boots', 'Сапоги'),
        ('sneakers', 'Кроссовки'),
        ('ankle_boots', 'Полусапоги');
 
-INSERT INTO shoes (vendor_code, url, name, description, image_url, season_name, model_name)
+INSERT INTO monro.shoes (vendor_code, url, name, description, image_url, season_name, model_name)
 VALUES ('P0520-20A-2',
         'https://www.monro.biz/nsk/product/?id=000000001000209920&gcode=%D0%97%D0%98%D0%9C%D0%90&vt=02&pg=4&gp=50&sr=1',
         'Bona Mente',
@@ -100,7 +100,7 @@ VALUES ('P0520-20A-2',
         'Материал верха: натуральная кожа. Материал подкладки: натуральная шерсть. Материал подошвы: ТЭП.',
         'https://www.monro.biz/foto/80.399837/QPHOTO_01.JPG', 'Winter', 'ankle_boots');
 
-INSERT INTO shoes_scales(shoes_vendor_code, size, volume)
+INSERT INTO monro.shoes_scales(shoes_vendor_code, size, volume)
 VALUES ('P0520-20A-2', 35, 3),
        ('P0520-20A-2', 36, 3),
        ('P0520-20A-2', 37, 3),

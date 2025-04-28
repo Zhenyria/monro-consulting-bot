@@ -1,14 +1,14 @@
-CREATE SEQUENCE IF NOT EXISTS global_seq AS INTEGER START WITH 100 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS monro.global_seq AS INTEGER START WITH 100 INCREMENT BY 1;
 
-CREATE TABLE IF NOT EXISTS text_template
+CREATE TABLE IF NOT EXISTS monro.text_template
 (
-    id         INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
+    id         INTEGER DEFAULT nextval('monro.global_seq') PRIMARY KEY,
     key_value  VARCHAR(50)  NOT NULL,
     text_value VARCHAR(500) NOT NULL,
     CONSTRAINT key_unique_idx UNIQUE (key_value)
 );
 
-CREATE TABLE IF NOT EXISTS scale
+CREATE TABLE IF NOT EXISTS monro.scale
 (
     size        INTEGER       NOT NULL,
     volume      INTEGER       NOT NULL,
@@ -17,13 +17,13 @@ CREATE TABLE IF NOT EXISTS scale
     PRIMARY KEY (size, volume)
 );
 
-CREATE TABLE IF NOT EXISTS customer
+CREATE TABLE IF NOT EXISTS monro.customer
 (
     chat_member_id BIGINT PRIMARY KEY,
     user_name      VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS customer_scale
+CREATE TABLE IF NOT EXISTS monro.customer_scale
 (
     customer_id BIGINT  NOT NULL,
     size        INTEGER NOT NULL,
@@ -35,19 +35,19 @@ CREATE TABLE IF NOT EXISTS customer_scale
         FOREIGN KEY (size, volume) REFERENCES scale (size, volume)
 );
 
-CREATE TABLE IF NOT EXISTS season
+CREATE TABLE IF NOT EXISTS monro.season
 (
     name_val       VARCHAR(50) PRIMARY KEY,
     localized_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS shoes_model
+CREATE TABLE IF NOT EXISTS monro.shoes_model
 (
     name_val       VARCHAR(50) PRIMARY KEY,
     localized_name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS shoes
+CREATE TABLE IF NOT EXISTS monro.shoes
 (
     vendor_code VARCHAR(50) PRIMARY KEY,
     url         VARCHAR(200) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS shoes
         FOREIGN KEY (model_name) REFERENCES shoes_model (name_val)
 );
 
-CREATE TABLE IF NOT EXISTS shoes_scales
+CREATE TABLE IF NOT EXISTS monro.shoes_scales
 (
     shoes_vendor_code VARCHAR(50) NOT NULL,
     size              INTEGER     NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS shoes_scales
         FOREIGN KEY (size, volume) REFERENCES scale (size, volume)
 );
 
-CREATE TABLE IF NOT EXISTS customer_shoes_wish
+CREATE TABLE IF NOT EXISTS monro.customer_shoes_wish
 (
     customer_id BIGINT      NOT NULL,
     vendor_code VARCHAR(50) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS customer_shoes_wish
         FOREIGN KEY (vendor_code) REFERENCES shoes (vendor_code)
 );
 
-CREATE TABLE IF NOT EXISTS users
+CREATE TABLE IF NOT EXISTS monro.users
 (
     name_val VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255) NULL

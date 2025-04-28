@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * The entity represents shoes scale <i>(size and girth)</i>
  */
 @Entity
-@Table(schema = "public", name = "scale")
+@Table(name = "scale", schema = "monro")
 @IdClass(ScaleId.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor

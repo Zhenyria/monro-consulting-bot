@@ -9,15 +9,20 @@ spring:
   application:
     name: Monro consulting bot
   datasource:
-    url: jdbc:h2:mem:monro;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:monro;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
     username: sa
     password: sa
     driverClassName: org.h2.Driver
+  flyway:
+    enabled: false
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: validate # Checks that existing schema are fitted for existing entities
+      ddl-auto: none # Validation does not work with non-public schema
     open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
     show-sql: true
   mvc.view:
     prefix: /WEB-INF/jsp/

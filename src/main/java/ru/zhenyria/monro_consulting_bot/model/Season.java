@@ -19,7 +19,7 @@ import java.io.Serializable;
  * The entity represents season type of shoes
  */
 @Entity
-@Table(schema = "public", name = "season")
+@Table(name = "season", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor

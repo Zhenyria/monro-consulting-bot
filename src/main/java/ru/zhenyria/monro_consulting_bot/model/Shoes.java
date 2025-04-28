@@ -27,7 +27,7 @@ import java.util.List;
  * The entity represents shoes model
  */
 @Entity
-@Table(schema = "public", name = "shoes")
+@Table(name = "shoes", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,6 +60,7 @@ public class Shoes implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "shoes_scales",
+            schema = "monro",
             joinColumns = {
                     @JoinColumn(name = "shoes_vendor_code", referencedColumnName = "vendor_code")
             },

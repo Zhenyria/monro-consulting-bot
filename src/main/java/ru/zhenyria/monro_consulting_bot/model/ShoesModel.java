@@ -19,7 +19,7 @@ import java.io.Serializable;
  * The entity represents model of shoes
  */
 @Entity
-@Table(schema = "public", name = "shoes_model")
+@Table(name = "shoes_model", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor

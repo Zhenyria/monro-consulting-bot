@@ -20,7 +20,13 @@ public abstract class AbstractEntity {
     static final int START_SEQ = 100;
 
     @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", initialValue = START_SEQ, allocationSize = 1)
+    @SequenceGenerator(
+            name = "global_seq",
+            sequenceName = "global_seq",
+            schema = "monro",
+            initialValue = START_SEQ,
+            allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     @Column(name = "id")
     Integer id;

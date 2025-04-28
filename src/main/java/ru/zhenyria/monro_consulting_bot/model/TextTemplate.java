@@ -18,7 +18,7 @@ import java.io.Serializable;
  * The entity for text templates
  */
 @Entity
-@Table(schema = "public", name = "text_template")
+@Table(name = "text_template", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor

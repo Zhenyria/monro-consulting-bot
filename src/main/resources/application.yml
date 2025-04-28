@@ -12,10 +12,18 @@ spring:
     username: ${DB_USER:user}
     password: ${DB_PASSWORD:password}
     driverClassName: org.postgresql.Driver
+  flyway:
+    create-schemas: true
+    default-schema: monro
+    enabled: true
+    locations: classpath:db/migration
+    password: ${spring.datasource.password}
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     open-in-view: false
     show-sql: false
   mvc.view:
@@ -23,9 +31,7 @@ spring:
     suffix: .jsp
   sql:
     init:
-      mode: always
-      data-locations: classpath:init.sql
-      schema-locations: classpath:schema.sql
+      mode: never
 
 server:
   servlet:

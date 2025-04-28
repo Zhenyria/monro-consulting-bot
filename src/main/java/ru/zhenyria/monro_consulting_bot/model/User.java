@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Table(schema = "public", name = "users")
+@Table(name = "users", schema = "monro")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
