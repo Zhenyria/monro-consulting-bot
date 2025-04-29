@@ -44,7 +44,7 @@
         </div>
         <div>
             <label for="volumes" class="label">Volumes: </label>
-            <select name="volumes" class="input" id="volumes">
+            <select name="volume" class="input" id="volumes">
                 <c:forEach items="${scales.volumes}" var="volume">
                     <option value="${volume}">${volume}</option>
                 </c:forEach>

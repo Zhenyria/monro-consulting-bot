@@ -220,7 +220,7 @@ public class CallbackService implements UpdateProcessableService {
                 var message = createTextMessageForChat(chatId,
                                                        """
                                                                Выберите интересующую вас модель обуви (в списке только \
-                                                               те модели, для которых в данных момент представлены \
+                                                               те модели, для которых в данный момент представлена \
                                                                обувь вашего размера).""");
                 message.setReplyMarkup(keyboard);
                 yield message;

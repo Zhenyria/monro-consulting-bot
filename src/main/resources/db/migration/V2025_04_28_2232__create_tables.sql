@@ -103,15 +103,29 @@ CREATE TABLE IF NOT EXISTS monro.season
     localized_name VARCHAR(50) NOT NULL
 );
 
+INSERT INTO monro.season (name_val, localized_name)
+VALUES ('summer', 'Лето'),
+       ('winter', 'Зима'),
+       ('demi_season', 'Весна-осень');
+
 CREATE TABLE IF NOT EXISTS monro.shoes_model
 (
     name_val       VARCHAR(50) PRIMARY KEY,
     localized_name VARCHAR(50) NOT NULL
 );
 
+INSERT INTO monro.shoes_model (name_val, localized_name)
+VALUES ('high_boots', 'Сапоги'),
+       ('shoes', 'Туфли'),
+       ('boots', 'Ботинки'),
+       ('slippers', 'Сланцы'),
+       ('sneakers', 'Кроссовки'),
+       ('ankle_boots', 'Полусапоги');
+
 CREATE TABLE IF NOT EXISTS monro.shoes
 (
-    vendor_code VARCHAR(50) PRIMARY KEY,
+    id          INTEGER DEFAULT nextval('monro.global_seq') PRIMARY KEY,
+    vendor_code VARCHAR(50)  NOT NULL,
     url         VARCHAR(200) NOT NULL,
     name        VARCHAR(50)  NOT NULL,
     description VARCHAR(500) NOT NULL,
@@ -126,25 +140,25 @@ CREATE TABLE IF NOT EXISTS monro.shoes
 
 CREATE TABLE IF NOT EXISTS monro.shoes_scales
 (
-    shoes_vendor_code VARCHAR(50) NOT NULL,
-    size              INTEGER     NOT NULL,
-    volume            INTEGER     NOT NULL,
-    PRIMARY KEY (shoes_vendor_code, size, volume),
-    CONSTRAINT fk__shoes_scales__shoes_vendor_code__vendor_code
-        FOREIGN KEY (shoes_vendor_code) REFERENCES shoes (vendor_code),
+    shoes_id INTEGER NOT NULL,
+    size     INTEGER NOT NULL,
+    volume   INTEGER NOT NULL,
+    PRIMARY KEY (shoes_id, size, volume),
+    CONSTRAINT fk__shoes_scales__shoes__shoes_id__id
+        FOREIGN KEY (shoes_id) REFERENCES monro.shoes (id),
     CONSTRAINT fk__shoes_scales__scale__size__volume__size__volume
-        FOREIGN KEY (size, volume) REFERENCES scale (size, volume)
+        FOREIGN KEY (size, volume) REFERENCES monro.scale (size, volume)
 );
 
 CREATE TABLE IF NOT EXISTS monro.customer_shoes_wish
 (
-    customer_id BIGINT      NOT NULL,
-    vendor_code VARCHAR(50) NOT NULL,
-    PRIMARY KEY (customer_id, vendor_code),
+    customer_id BIGINT  NOT NULL,
+    shoes_id    INTEGER NOT NULL,
+    PRIMARY KEY (customer_id, shoes_id),
     CONSTRAINT fk__customer_shoes_wish__customer__customer_id__id
-        FOREIGN KEY (customer_id) REFERENCES customer (chat_member_id),
-    CONSTRAINT fk__customer_shoes_wish__shoes__vendor_code__vendor_code
-        FOREIGN KEY (vendor_code) REFERENCES shoes (vendor_code)
+        FOREIGN KEY (customer_id) REFERENCES monro.customer (chat_member_id),
+    CONSTRAINT fk__customer_shoes_wish__shoes__shoes_id__id
+        FOREIGN KEY (shoes_id) REFERENCES monro.shoes (id)
 );
 
 CREATE TABLE IF NOT EXISTS monro.users
