@@ -25,8 +25,8 @@ public class ShoesController {
         service.create(createRequest);
     }
 
-    @DeleteMapping("/{vendorCode}")
-    public void delete(@PathVariable("vendorCode") String vendorCode) {
-        service.delete(vendorCode);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        service.delete(id);
     }
 }

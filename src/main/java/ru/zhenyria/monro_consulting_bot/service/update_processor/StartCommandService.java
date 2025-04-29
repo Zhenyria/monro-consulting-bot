@@ -155,7 +155,7 @@ public class StartCommandService implements UpdateProcessableService {
                                                                          shoes.getVendorCode()),
                                               shoes -> "%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
                                                                            GET_WISH_LIST.getCommand(),
-                                                                           shoes.getVendorCode()))
+                                                                           shoes.getId()))
                     .forEach(button -> linedButtons.add(List.of(button)));
 
         var keyboard = new InlineKeyboardMarkup(linedButtons);

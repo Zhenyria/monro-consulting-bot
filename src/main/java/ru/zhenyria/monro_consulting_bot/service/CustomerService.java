@@ -7,6 +7,8 @@ import ru.zhenyria.monro_consulting_bot.model.Customer;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.repository.CustomerRepository;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -38,7 +40,7 @@ public class CustomerService {
         var wishedShoes = customer.getWishedShoes();
 
         for (var alreadyWishedShoes : wishedShoes) {
-            if (alreadyWishedShoes.getVendorCode().equals(shoes.getVendorCode())) {
+            if (Objects.equals(alreadyWishedShoes.getId(), shoes.getId())) {
                 return false;
             }
         }
@@ -48,22 +50,28 @@ public class CustomerService {
         return true;
     }
 
+    /**
+     * Removes shoes from customers' wishes lists
+     *
+     * @param shoesId the id of the removing shoes
+     * @see CustomerService#removeShoesFromWishList(Long, Integer)
+     */
     @Transactional
-    public void removeShoesFromWishLists(String shoesVendorCode) {
-        repository.findAllByWishedShoes(shoesVendorCode)
+    public void removeShoesFromWishLists(Integer shoesId) {
+        repository.findAllByWishedShoes(shoesId)
                   .stream()
                   .map(Customer::getChatMemberId)
-                  .forEach(id -> removeShoesFromWishList(id, shoesVendorCode));
+                  .forEach(id -> removeShoesFromWishList(id, shoesId));
     }
 
     /**
      * Removes shoes from customer's wish list
      *
-     * @param id              the id of the customer
-     * @param shoesVendorCode the id of the removing shoes
+     * @param id      the id of the customer
+     * @param shoesId the id of the removing shoes
      */
     @Transactional
-    public void removeShoesFromWishList(Long id, String shoesVendorCode) {
+    public void removeShoesFromWishList(Long id, Integer shoesId) {
         var customer = this.get(id);
         var wishedShoes = customer.getWishedShoes();
 
@@ -72,7 +80,7 @@ public class CustomerService {
         while (iterator.hasNext()) {
             var shoes = iterator.next();
 
-            if (shoes.getVendorCode().equals(shoesVendorCode)) {
+            if (Objects.equals(shoes.getId(), shoesId)) {
                 iterator.remove();
                 return;
             }

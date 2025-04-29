@@ -3,7 +3,8 @@ package ru.zhenyria.monro_consulting_bot.dto.response;
 import java.io.Serializable;
 import java.util.List;
 
-public record ShoesDto(String vendorCode,
+public record ShoesDto(Integer id,
+                       String vendorCode,
                        String url,
                        String name,
                        String description,

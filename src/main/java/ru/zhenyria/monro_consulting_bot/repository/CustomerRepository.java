@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    @Query("SELECT cm FROM Customer cm JOIN FETCH cm.wishedShoes ws WHERE ws.vendorCode = :shoesVendorCode")
-    List<Customer> findAllByWishedShoes(String shoesVendorCode);
+    @Query("SELECT cm FROM Customer cm JOIN FETCH cm.wishedShoes ws WHERE ws.id = :shoesId")
+    List<Customer> findAllByWishedShoes(Integer shoesId);
 
     @Query("SELECT COUNT(cm) FROM Customer cm")
     long getTotalCount();

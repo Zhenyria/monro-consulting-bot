@@ -296,9 +296,9 @@ public class CallbackService implements UpdateProcessableService {
 
         var addToWishButton = new InlineKeyboardButton();
         addToWishButton.setText("В желаемое \uD83D\uDC95");
-        addToWishButton.setCallbackData("%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+        addToWishButton.setCallbackData("%s%s %d".formatted(CommandUtil.COMMAND_SYMBOL,
                                                             ADD_TO_WISH.getCommand(),
-                                                            randomShoes.getVendorCode()));
+                                                            randomShoes.getId()));
         buttons.add(addToWishButton);
 
         var nextShoesButton = new InlineKeyboardButton();
@@ -320,21 +320,19 @@ public class CallbackService implements UpdateProcessableService {
      */
     private SendMessage getMessageForAddingShoesToWishList(Update update) {
         val shoesVendorCodeParameterIndex = 0;
-        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+        val shoesId = Integer.parseInt(CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex]);
 
         val chatId = getChatId(update);
 
-        var shoes = shoesService.getByVendorCode(shoesVendorCode);
+        var shoes = shoesService.getById(shoesId);
         if (shoes == null) {
-            return createTextMessageForChat(chatId, "Ошибка. Модель %s не найдена.".formatted(shoesVendorCode));
+            return createTextMessageForChat(chatId, "Ошибка. Модель не найдена.");
         }
 
         val isShoesAdded = customerService.addShoesToWishList(chatId, shoes);
-        return createTextMessageForChat(
-                chatId,
-                isShoesAdded ? "Модель %s успешно добавлена в список желаемого!".formatted(shoesVendorCode)
-                             : "Модель %s уже добавлена в список желаемого.".formatted(shoesVendorCode)
-        );
+        return createTextMessageForChat(chatId,
+                                        isShoesAdded ? "Модель успешно добавлена в список желаемого!"
+                                                     : "Модель уже добавлена в список желаемого.");
     }
 
     /**
@@ -345,23 +343,23 @@ public class CallbackService implements UpdateProcessableService {
      */
     private SendMessage getMessageWithShoesFromWishList(Update update) {
         val shoesVendorCodeParameterIndex = 0;
-        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+        val shoesId = Integer.parseInt(CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex]);
 
-        var shoes = shoesService.getByVendorCode(shoesVendorCode);
+        var shoes = shoesService.getById(shoesId);
 
         val chatId = getChatId(update);
         if (shoes == null) {
-            return createTextMessageForChat(chatId, "Ошибка. Модель %s не найдена".formatted(shoesVendorCode));
+            return createTextMessageForChat(chatId, "Ошибка. Модель не найдена");
         }
 
         var message = createTextMessageForChat(chatId, getShoesDescription(shoes));
 
-        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        var buttons = new ArrayList<InlineKeyboardButton>();
         var removeFromWishListButton = new InlineKeyboardButton();
         removeFromWishListButton.setText("Удалить из списка желаемого");
-        removeFromWishListButton.setCallbackData("%s%s %s".formatted(CommandUtil.COMMAND_SYMBOL,
+        removeFromWishListButton.setCallbackData("%s%s %d".formatted(CommandUtil.COMMAND_SYMBOL,
                                                                      REMOVE_FROM_WISH_LIST.getCommand(),
-                                                                     shoesVendorCode));
+                                                                     shoesId));
         buttons.add(removeFromWishListButton);
 
         message.setReplyMarkup(KeyboardUtil.getInlineKeyboard(buttons));
@@ -376,13 +374,12 @@ public class CallbackService implements UpdateProcessableService {
      */
     private SendMessage getMessageForShoesRemovedFromWishList(Update update) {
         val shoesVendorCodeParameterIndex = 0;
-        val shoesVendorCode = CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex];
+        val shoesId = Integer.parseInt(CallbackCommandUtil.parseCallbackData(update)[shoesVendorCodeParameterIndex]);
         val customerId = getChatMemberId(update);
 
-        customerService.removeShoesFromWishList(customerId, shoesVendorCode);
+        customerService.removeShoesFromWishList(customerId, shoesId);
 
-        return createTextMessageForChat(getChatId(update),
-                                        "Модель %s успешно удалена из списка желаемого".formatted(shoesVendorCode));
+        return createTextMessageForChat(getChatId(update), "Модель успешно удалена из списка желаемого");
     }
 
     /**
@@ -398,12 +395,12 @@ public class CallbackService implements UpdateProcessableService {
                 
                 %s
                 
-                Страница в магазине: %s
-                Изображение: %s""".formatted(shoes.getModel().getLocalizedName(),
-                                             shoes.getName(),
-                                             shoes.getVendorCode(),
-                                             shoes.getDescription(),
-                                             shoes.getUrl(),
-                                             shoes.getImageUrl());
+                Изображение: %s
+                Страница в магазине: %s""".formatted(shoes.getModel().getLocalizedName(),
+                                                     shoes.getName(),
+                                                     shoes.getVendorCode(),
+                                                     shoes.getDescription(),
+                                                     shoes.getImageUrl(),
+                                                     shoes.getUrl());
     }
 }

@@ -20,7 +20,9 @@ spring:
     password: ${spring.datasource.password}
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
+    validate-on-migrate: true
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect # Validation does not work if no database platform set explicitly
     generate-ddl: false
     hibernate:
       ddl-auto: validate

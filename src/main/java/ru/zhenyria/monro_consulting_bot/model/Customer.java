@@ -65,7 +65,7 @@ public class Customer implements Serializable {
             name = "customer_shoes_wish",
             schema = "monro",
             joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "chat_member_id"),
-            inverseJoinColumns = @JoinColumn(name = "vendor_code", referencedColumnName = "vendor_code")
+            inverseJoinColumns = @JoinColumn(name = "shoes_id", referencedColumnName = "id")
 
     )
     List<Shoes> wishedShoes = new ArrayList<>();

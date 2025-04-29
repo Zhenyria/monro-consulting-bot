@@ -47,8 +47,8 @@ public class ShoesService {
         repository.save(shoes);
     }
 
-    public Shoes getByVendorCode(String vendorCode) {
-        return repository.findById(vendorCode)
+    public Shoes getById(Integer id) {
+        return repository.findById(id)
                          .orElse(null);
     }
 
@@ -76,11 +76,11 @@ public class ShoesService {
 
     public List<Shoes> getAll() {
         var shoes = repository.findAll();
-        val vendorCodes = shoes.stream()
-                               .map(Shoes::getVendorCode)
-                               .toList();
+        val ids = shoes.stream()
+                       .map(Shoes::getId)
+                       .toList();
 
-        shoes = repository.findAllByVendorCodesFetchingScales(vendorCodes);
+        shoes = repository.findAllByIdsFetchingScales(ids);
         return shoes;
     }
 
@@ -95,12 +95,12 @@ public class ShoesService {
     }
 
     @Transactional
-    public void delete(String vendorCode) {
-        if (!repository.existsById(vendorCode)) {
+    public void delete(Integer id) {
+        if (!repository.existsById(id)) {
             return;
         }
 
-        customerService.removeShoesFromWishLists(vendorCode);
-        repository.deleteById(vendorCode);
+        customerService.removeShoesFromWishLists(id);
+        repository.deleteById(id);
     }
 }

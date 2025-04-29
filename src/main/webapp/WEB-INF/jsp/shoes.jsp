@@ -15,6 +15,7 @@
 <table class="mainTable">
     <thead>
     <tr>
+        <td>ID</td>
         <td>Image</td>
         <td>Vendor code</td>
         <td>Name</td>
@@ -30,6 +31,7 @@
     <c:forEach items="${shoes}" var="shoesItem">
         <tr>
             <td><img class="shoesImage" src="${shoesItem.imageUrl}" alt="${shoesItem.name}"/></td>
+            <td>${shoesItem.id}</td>
             <td>${shoesItem.vendorCode}</td>
             <td>${shoesItem.name}</td>
             <td>${shoesItem.description}</td>
@@ -49,7 +51,7 @@
                 </table>
             </td>
             <td>
-                <button title="Delete" onclick="deleteShoes('${shoesItem.vendorCode}')">Delete</button>
+                <button title="Delete" onclick="deleteShoes('${shoesItem.id}')">Delete</button>
             </td>
         </tr>
     </c:forEach>

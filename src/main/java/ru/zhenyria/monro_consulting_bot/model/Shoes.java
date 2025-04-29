@@ -3,7 +3,6 @@ package ru.zhenyria.monro_consulting_bot.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -34,10 +33,9 @@ import java.util.List;
 @Setter
 @Getter
 @EqualsAndHashCode(callSuper = false)
-public class Shoes implements Serializable {
+public class Shoes extends AbstractEntity implements Serializable {
 
-    @Id
-    @NotNull
+    @NotBlank
     @Column(name = "vendor_code")
     String vendorCode;
 
@@ -62,7 +60,7 @@ public class Shoes implements Serializable {
             name = "shoes_scales",
             schema = "monro",
             joinColumns = {
-                    @JoinColumn(name = "shoes_vendor_code", referencedColumnName = "vendor_code")
+                    @JoinColumn(name = "shoes_id", referencedColumnName = "id")
             },
             inverseJoinColumns = {
                     @JoinColumn(name = "size", referencedColumnName = "size"),
