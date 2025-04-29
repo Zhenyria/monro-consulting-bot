@@ -13,12 +13,6 @@ const createShoes = () => {
     const form = document.getElementById(FORM_ID);
     const formData = new FormData(form);
 
-    const scales = formData.getAll('scales')
-                           ?.map(scale => {
-                               const scaleObj = scale.split('-');
-                               return {size: scaleObj[0], volume: scaleObj[1]};
-                           }) || [];
-
     const vendorCode = formData.get('vendorCode');
     const shoes = {
         vendorCode,
@@ -26,7 +20,8 @@ const createShoes = () => {
         name: formData.get('name'),
         description: formData.get('description'),
         imageUrl: formData.get('imageUrl'),
-        scales,
+        sizes: formData.getAll('sizes'),
+        volume: formData.get('volume'),
         seasonName: formData.get('seasonName'),
         modelName: formData.get('modelName'),
     };

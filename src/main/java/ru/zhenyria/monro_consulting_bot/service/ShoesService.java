@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,11 +28,11 @@ public class ShoesService {
     public void create(ShoesCreateRequestDto createRequest) {
         var season = seasonService.getReference(createRequest.seasonName());
         var model = modelService.getReference(createRequest.modelName());
-        var scales = scaleService.getReferences(Optional.ofNullable(createRequest.scales())
+        var scales = scaleService.getReferences(Optional.ofNullable(createRequest.sizes())
                                                         .stream()
                                                         .flatMap(List::stream)
-                                                        .map(dto -> new ScaleId(dto.size(), dto.volume()))
-                                                        .collect(Collectors.toList()));
+                                                        .map(size -> new ScaleId(size, createRequest.volume()))
+                                                        .toList());
 
         var shoes = new Shoes(createRequest.vendorCode(),
                               createRequest.url(),

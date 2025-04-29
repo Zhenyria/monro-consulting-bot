@@ -12,10 +12,8 @@ public record ShoesCreateRequestDto(@NotBlank String vendorCode,
                                     @NotBlank String name,
                                     @NotBlank String description,
                                     @NotBlank String imageUrl,
-                                    List<@Valid @NotNull Scale> scales,
+                                    List<@Valid @NotNull Integer> sizes,
+                                    @NotNull Integer volume,
                                     @NotBlank String seasonName,
                                     @NotBlank String modelName) implements Serializable {
-
-    public record Scale(@NotNull Integer size, @NotNull Integer volume) implements Serializable {
-    }
 }

@@ -36,7 +36,7 @@ public class ShoesViewController {
 
     @GetMapping("/creating")
     public String getCreatingPage(Model model) {
-        var scales = scaleMapper.mapToDtos(scaleService.getAll());
+        var scales = scaleMapper.mapToDto(scaleService.getAll());
         var seasons = seasonMapper.mapToDtos(seasonService.getAll());
         var shoesModels = shoesModelMapper.mapToDtos(shoesModelService.getAll());
 

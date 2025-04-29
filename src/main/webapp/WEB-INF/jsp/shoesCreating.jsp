@@ -35,10 +35,18 @@
             <input id="imageUrl" class="input" name="imageUrl" type="text"/>
         </div>
         <div>
-            <label for="scales" class="label">Scales: </label>
-            <select name="scales" class="input" id="scales" multiple>
-                <c:forEach items="${scales}" var="scale">
-                    <option value="${scale.size}-${scale.volume}">${scale.size} ${scale.volume}</option>
+            <label for="sizes" class="label">Sizes: </label>
+            <select name="sizes" class="input" id="sizes" multiple>
+                <c:forEach items="${scales.sizes}" var="size">
+                    <option value="${size}">${size}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div>
+            <label for="volumes" class="label">Volumes: </label>
+            <select name="volumes" class="input" id="volumes">
+                <c:forEach items="${scales.volumes}" var="volume">
+                    <option value="${volume}">${volume}</option>
                 </c:forEach>
             </select>
         </div>
