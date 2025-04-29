@@ -9,10 +9,8 @@ public record ShoesDto(Integer id,
                        String name,
                        String description,
                        String imageUrl,
-                       List<Scale> scales,
+                       List<Integer> sizes,
+                       Integer volume,
                        String seasonName,
                        String modelName) implements Serializable {
-
-    public record Scale(Integer size, Integer volume) implements Serializable {
-    }
 }

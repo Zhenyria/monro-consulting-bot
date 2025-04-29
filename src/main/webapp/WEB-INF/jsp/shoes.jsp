@@ -23,7 +23,8 @@
         <td>Season code</td>
         <td>Model code</td>
         <td>Page</td>
-        <td>Scales (size / volume)</td>
+        <td>Sizes</td>
+        <td>Volume</td>
         <td>Options</td>
     </tr>
     </thead>
@@ -41,15 +42,15 @@
             <td>
                 <table>
                     <tbody>
-                    <c:forEach items="${shoesItem.scales}" var="scale">
-                        <tr>
-                            <td>${scale.size}</td>
-                            <td>${scale.volume}</td>
-                        </tr>
-                    </c:forEach>
+                    <tr>
+                        <c:forEach items="${shoesItem.sizes}" var="size">
+                            <td>${size}</td>
+                        </c:forEach>
+                    </tr>
                     </tbody>
                 </table>
             </td>
+            <td>${shoesItem.volume}</td>
             <td>
                 <button title="Delete" onclick="deleteShoes('${shoesItem.id}')">Delete</button>
             </td>
