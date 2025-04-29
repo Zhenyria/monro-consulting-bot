@@ -18,8 +18,8 @@ import java.util.Optional;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ShoesMapper {
 
-    @Mapping(target = "seasonName", source = "season.name")
-    @Mapping(target = "modelName", source = "model.name")
+    @Mapping(target = "seasonName", source = "season.localizedName")
+    @Mapping(target = "modelName", source = "model.localizedName")
     @Mapping(target = "sizes", source = "scales", qualifiedBy = SizesMapper.class)
     @Mapping(target = "volume", source = "scales", qualifiedBy = VolumeMapper.class)
     ShoesDto mapToDto(Shoes shoes);

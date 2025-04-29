@@ -20,8 +20,8 @@
         <td>Vendor code</td>
         <td>Name</td>
         <td>Description</td>
-        <td>Season code</td>
-        <td>Model code</td>
+        <td>Season</td>
+        <td>Model</td>
         <td>Page</td>
         <td>Sizes</td>
         <td>Volume</td>
