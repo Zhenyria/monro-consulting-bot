@@ -10,8 +10,10 @@ import ru.zhenyria.monro_consulting_bot.repository.CustomerRepository;
 import java.util.Objects;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CustomerService {
+    private final ConsultationRequestService consultationRequestService;
     private final CustomerRepository repository;
 
     @Transactional
@@ -21,6 +23,10 @@ public class CustomerService {
 
     public Customer get(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Customer getWithWishedShoes(Long id) {
+        return repository.findWithWishedShoesByChatMemberId(id);
     }
 
     public long getChatMembersTotalCount() {
@@ -87,8 +93,10 @@ public class CustomerService {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public void removeByChatMemberId(Long id) {
+        consultationRequestService.removeAllByCustomerId(id);
         repository.removeByChatMemberId(id);
+        repository.flush();
     }
 }

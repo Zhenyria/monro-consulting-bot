@@ -48,6 +48,9 @@ class ChatMemberStatusService implements UpdateProcessableService {
                     customerService.save(new Customer(getChatMemberId(update),
                                                       getChatMemberName(update),
                                                       null,
+                                                      null,
+                                                      null,
+                                                      null,
                                                       null));
                     return createTextMessageForChat(getChatId(update), textTemplateService.getByKey("GREETING"));
                 });
@@ -58,6 +61,9 @@ class ChatMemberStatusService implements UpdateProcessableService {
                 update -> {
                     customerService.save(new Customer(getChatMemberId(update),
                                                       getChatMemberName(update),
+                                                      null,
+                                                      null,
+                                                      null,
                                                       null,
                                                       null));
                     return createTextMessageForChat(

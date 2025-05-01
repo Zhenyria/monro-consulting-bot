@@ -11,6 +11,14 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+    @Query("""
+           SELECT          cm
+           FROM            Customer cm
+           LEFT JOIN FETCH cm.wishedShoes
+           WHERE           cm.chatMemberId = :chatMemberId
+           """)
+    Customer findWithWishedShoesByChatMemberId(Long chatMemberId);
+
     @Query("SELECT cm FROM Customer cm JOIN FETCH cm.wishedShoes ws WHERE ws.id = :shoesId")
     List<Customer> findAllByWishedShoes(Integer shoesId);
 

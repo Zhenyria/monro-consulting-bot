@@ -3,6 +3,7 @@ package ru.zhenyria.monro_consulting_bot.service;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zhenyria.monro_consulting_bot.dto.request.ShoesCreateRequestDto;
 import ru.zhenyria.monro_consulting_bot.model.ScaleId;
@@ -49,6 +50,11 @@ public class ShoesService {
     public Shoes getById(Integer id) {
         return repository.findById(id)
                          .orElse(null);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
+    public Shoes getReference(Integer id) {
+        return repository.getReferenceById(id);
     }
 
     /**

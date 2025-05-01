@@ -46,6 +46,18 @@ public class Customer implements Serializable {
     @Column(name = "user_name")
     String userName;
 
+    @Size(max = 50)
+    @Column(name = "first_name")
+    String firstName;
+
+    @Size(max = 50)
+    @Column(name = "last_name")
+    String lastName;
+
+    @Size(max = 50)
+    @Column(name = "phone_number")
+    String phoneNumber;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_scale",

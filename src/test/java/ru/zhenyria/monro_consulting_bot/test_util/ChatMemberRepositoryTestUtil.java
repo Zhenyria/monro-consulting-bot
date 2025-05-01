@@ -12,8 +12,20 @@ import java.util.List;
  */
 @UtilityClass
 public class ChatMemberRepositoryTestUtil {
-    private static final Customer CHAT_MEMBER_1 = new Customer(1L, "default_user_1", null, Collections.emptyList());
-    private static final Customer CHAT_MEMBER_2 = new Customer(2L, "default_user_2", null, Collections.emptyList());
+    private static final Customer CHAT_MEMBER_1 = new Customer(1L,
+                                                               "default_user_1",
+                                                               null,
+                                                               null,
+                                                               null,
+                                                               null,
+                                                               Collections.emptyList());
+
+    private static final Customer CHAT_MEMBER_2 = new Customer(2L, "default_user_2",
+                                                               null,
+                                                               null,
+                                                               null,
+                                                               null,
+                                                               Collections.emptyList());
 
     private static final List<Customer> CHAT_MEMBERS = List.of(CHAT_MEMBER_1, CHAT_MEMBER_2);
 

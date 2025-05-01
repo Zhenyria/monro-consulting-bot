@@ -2,6 +2,7 @@ package ru.zhenyria.monro_consulting_bot.service.update_processor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -13,6 +14,7 @@ import java.util.Set;
  * Main service which handles all telegram's updates
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MonroConsultingService {
     private final List<UpdateProcessableService> updateProcessableServices;

@@ -146,15 +146,16 @@ public class CallbackService implements UpdateProcessableService {
                                                               CallbackCommandUtil.CALLBACK_DATA_SPLITTER,
                                                               String.valueOf(girth)
                                                       ));
+
         var message = createTextMessageForChat(getChatId(update),
                                                """
-                                                       Укажите обхват своей стопы в сантиметрах. Производите замер \
-                                                       вечером, в конце рабочего дня. Меряйте обувь с носками, с \
-                                                       которыми вы планируете носить обувь. Например, для зимней обуви \
-                                                       замер лучше производить с толстыми шерстяными носками.
-                                                       Замер выполняется в части подъёма стопы. Если вы не нашли в \
-                                                       представленном списке подходящие параметры, то выберите самый \
-                                                       близкий к вашему с небольшим запасом в сторону увеличения""");
+                                               Укажите обхват своей стопы в сантиметрах. Производите замер вечером, в \
+                                               конце рабочего дня. Меряйте обувь с носками, с которыми вы планируете \
+                                               носить обувь. Например, для зимней обуви замер лучше производить с \
+                                               толстыми шерстяными носками.
+                                               Замер выполняется в части подъёма стопы. Если вы не нашли в \
+                                               представленном списке подходящие параметры, то выберите самый близкий к \
+                                               вашему с небольшим запасом в сторону увеличения""");
         message.setReplyMarkup(keyboard);
         return message;
     }
@@ -179,16 +180,15 @@ public class CallbackService implements UpdateProcessableService {
         customerService.save(customer);
         return createTextMessageForChat(getChatId(update),
                                         """
-                                                Вы указали длину стопы в %s сантиметров и обхват стопы в %s \
-                                                сантиметров. Мы определили, что у вас %d-й размер с %d-й полнотой (\
-                                                средние значения для данного размера составляют длину стопы в %s \
-                                                сантиметров и обхват в %s сантиметров)\
-                                                """.formatted(footLength,
-                                                              footGirth,
-                                                              suitableScale.getSize(),
-                                                              suitableScale.getVolume(),
-                                                              suitableScale.getFootLength(),
-                                                              suitableScale.getFootGirth()));
+                                        Вы указали длину стопы в %s сантиметров и обхват стопы в %s сантиметров. Мы \
+                                        определили, что у вас %d-й размер с %d-й полнотой (средние значения для \
+                                        данного размера составляют длину стопы в %s сантиметров и обхват в %s \
+                                        сантиметров)""".formatted(footLength,
+                                                                  footGirth,
+                                                                  suitableScale.getSize(),
+                                                                  suitableScale.getVolume(),
+                                                                  suitableScale.getFootLength(),
+                                                                  suitableScale.getFootGirth()));
     }
 
     /**
@@ -219,9 +219,9 @@ public class CallbackService implements UpdateProcessableService {
 
                 var message = createTextMessageForChat(chatId,
                                                        """
-                                                               Выберите интересующую вас модель обуви (в списке только \
-                                                               те модели, для которых в данный момент представлена \
-                                                               обувь вашего размера).""");
+                                                       Выберите интересующую вас модель обуви (в списке только те \
+                                                       модели, для которых в данный момент представлена обувь вашего \
+                                                       размера).""");
                 message.setReplyMarkup(keyboard);
                 yield message;
             }
@@ -236,9 +236,8 @@ public class CallbackService implements UpdateProcessableService {
 
                 var message = createTextMessageForChat(chatId,
                                                        """
-                                                               Выберите интересующий вас сезон (в списке только те \
-                                                               сезоны, для которых в данный момент представлена обувь \
-                                                               вашего размера).""");
+                                                       Выберите интересующий вас сезон (в списке только те сезоны, для \
+                                                       которых в данный момент представлена обувь вашего размера).""");
                 message.setReplyMarkup(keyboard);
                 yield message;
             }
@@ -390,17 +389,17 @@ public class CallbackService implements UpdateProcessableService {
      */
     private static String getShoesDescription(Shoes shoes) {
         return """
-                %s %s
-                Артикул: %s
-                
-                %s
-                
-                Изображение: %s
-                Страница в магазине: %s""".formatted(shoes.getModel().getLocalizedName(),
-                                                     shoes.getName(),
-                                                     shoes.getVendorCode(),
-                                                     shoes.getDescription(),
-                                                     shoes.getImageUrl(),
-                                                     shoes.getUrl());
+               %s %s
+               Артикул: %s
+               
+               %s
+               
+               Изображение: %s
+               Страница в магазине: %s""".formatted(shoes.getModel().getLocalizedName(),
+                                                    shoes.getName(),
+                                                    shoes.getVendorCode(),
+                                                    shoes.getDescription(),
+                                                    shoes.getImageUrl(),
+                                                    shoes.getUrl());
     }
 }
