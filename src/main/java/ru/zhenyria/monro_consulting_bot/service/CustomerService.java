@@ -7,6 +7,7 @@ import ru.zhenyria.monro_consulting_bot.model.Customer;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
 import ru.zhenyria.monro_consulting_bot.repository.CustomerRepository;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -27,6 +28,10 @@ public class CustomerService {
 
     public Customer getWithWishedShoes(Long id) {
         return repository.findWithWishedShoesByChatMemberId(id);
+    }
+
+    public List<Customer> getAllByIds(List<Long> ids) {
+        return repository.findAllById(ids);
     }
 
     public long getChatMembersTotalCount() {

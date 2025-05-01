@@ -18,6 +18,6 @@
 
 .logoutBlock {
     display: flex;
-    justify-content: right;
+    gap: 20px;
     align-items: center;
 }

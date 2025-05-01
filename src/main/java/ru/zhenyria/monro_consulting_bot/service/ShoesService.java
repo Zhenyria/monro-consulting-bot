@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zhenyria.monro_consulting_bot.dto.inner.WishedShoesDto;
 import ru.zhenyria.monro_consulting_bot.dto.request.ShoesCreateRequestDto;
 import ru.zhenyria.monro_consulting_bot.model.ScaleId;
 import ru.zhenyria.monro_consulting_bot.model.Shoes;
@@ -97,6 +98,10 @@ public class ShoesService {
      */
     public List<Shoes> getAllFromWishList(Long customerId) {
         return repository.findAllFromWishedListByCustomerId(customerId);
+    }
+
+    public List<WishedShoesDto> getAllByConsultationRequests(List<Integer> consultationRequestsIds) {
+        return repository.findAllByConsultationRequestsIds(consultationRequestsIds);
     }
 
     @Transactional
