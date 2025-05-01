@@ -11,12 +11,13 @@ The bot is able to greet new or returned users and keeps records of all users wh
 
 All commands are described in [the enum](src/main/java/ru/zhenyria/monro_consulting_bot/util/StartCommand.java).
 
-| Command              | Description                                                  | Localized description                   |
-|:---------------------|:-------------------------------------------------------------|:----------------------------------------|
-| `/members_count`     | returns total amount of all users which use the bot nowadays | Получить общее количество пользователей |
-| `/recommended_shoes` | returns recommended shoes                                    | Получить рекомендуемую обувь            |
-| `/size`              | sets customer's scale                                        | Установить свой размер                  |
-| `/wish_list`         | returns current wish list                                    | Получить список желаемого               |
+| Command                 | Description                                                  | Localized description                   |
+|:------------------------|:-------------------------------------------------------------|:----------------------------------------|
+| `/consultation_request` | sends request to consultation                                | Запросить консультацию                  |
+| `/members_count`        | returns total amount of all users which use the bot nowadays | Получить общее количество пользователей |
+| `/recommended_shoes`    | returns recommended shoes                                    | Получить рекомендуемую обувь            |
+| `/size`                 | sets customer's scale                                        | Установить свой размер                  |
+| `/wish_list`            | returns current wish list                                    | Получить список желаемого               |
 
 ## Environment variables :wrench:
 
