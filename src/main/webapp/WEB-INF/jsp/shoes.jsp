@@ -22,7 +22,7 @@
         <td>Description</td>
         <td>Season</td>
         <td>Model</td>
-        <td>Page</td>
+        <td>Links</td>
         <td>Sizes</td>
         <td>Volume</td>
         <td>Options</td>
@@ -31,14 +31,14 @@
     <tbody>
     <c:forEach items="${shoes}" var="shoesItem">
         <tr>
-            <td><img class="shoesImage" src="${shoesItem.imageUrl}" alt="${shoesItem.name}"/></td>
             <td>${shoesItem.id}</td>
+            <td><img class="shoesImage" src="${shoesItem.imageUrl}" alt="${shoesItem.name}"/></td>
             <td>${shoesItem.vendorCode}</td>
             <td>${shoesItem.name}</td>
             <td>${shoesItem.description}</td>
             <td>${shoesItem.seasonName}</td>
             <td>${shoesItem.modelName}</td>
-            <td><a href="${shoesItem.url}">${shoesItem.url}</a></td>
+            <td><a href="${shoesItem.url}">store page</a></td>
             <td>
                 <table>
                     <tbody>
